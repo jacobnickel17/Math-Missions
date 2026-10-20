@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {verifySettings} from '../scripts/release-preflight.mjs';
+const env={protection_rules:[{type:'required_reviewers',reviewers:[{type:'User',reviewer:{login:'jacobnickel17'}}]}],deployment_branch_policy:{custom_branch_policies:true}};
+const policies={branch_policies:[{name:'main',type:'branch'}]},pages={build_type:'workflow'};
+test('release gate requires teacher, main-only policy and Actions publishing',()=>{assert.doesNotThrow(()=>verifySettings(env,policies,pages));assert.throws(()=>verifySettings({...env,protection_rules:[]},policies,pages));assert.throws(()=>verifySettings(env,{branch_policies:[{name:'*',type:'branch'}]},pages));assert.throws(()=>verifySettings(env,policies,{build_type:'legacy'}));assert.throws(()=>verifySettings(env,{branch_policies:[{name:'main',type:'tag'}]},pages));});

@@ -1,0 +1,21 @@
+name: Lesson creation or revision
+description: Request a reviewable AI-assisted lesson draft
+title: "Lesson draft: "
+body:
+  - type: input
+    id: skill
+    attributes:
+      label: Skill and learning objective
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Grade, prerequisites, reading level, theme arc, and lesson to extend
+    validations:
+      required: true
+  - type: textarea
+    id: review
+    attributes:
+      label: Success criteria and teacher notes
+      description: No student names or records. Draft content must be reviewed before publication.

@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "arcs": [
+    {
+      "id": "signal-zero",
+      "title": "Operation Signal Zero",
+      "briefing": "Restore the station by using algebra to unlock each checkpoint."
+    }
+  ],
+  "missions": [
+    {
+      "id": "equation-vault",
+      "title": "The Equation Vault",
+      "unit": "Unit 4",
+      "summary": "Explore variables on both sides, solution types, equation models, and error analysis.",
+      "skills": [
+        "Linear equations",
+        "Modeling",
+        "Error analysis"
+      ],
+      "minutes": 45,
+      "status": "published",
+      "arcId": "signal-zero",
+      "type": "legacy",
+      "path": "unit-4/equation-vault/"
+    },
+    {
+      "id": "signal-checkpoint",
+      "title": "Signal Checkpoint",
+      "unit": "Unit 4 extension",
+      "summary": "Practice solving linear equations to restore a station signal.",
+      "skills": [
+        "Linear equations"
+      ],
+      "minutes": 15,
+      "status": "draft",
+      "arcId": "signal-zero",
+      "type": "practice",
+      "lesson": "content/lessons/signal-checkpoint.json"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "unit-4",
+      "title": "Unit 4 · Start here",
+      "instructions": "Open the Equation Vault. Follow the guided examples, complete the mastery check, then submit your downloaded mission report in your class assignment.",
+      "missionIds": [
+        "equation-vault"
+      ],
+      "nextStep": "After submitting, follow your teacher’s directions for extension work."
+    }
+  ]
+}

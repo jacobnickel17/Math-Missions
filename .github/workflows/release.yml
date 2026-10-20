@@ -1,0 +1,56 @@
+name: Teacher-approved Pages release
+on:
+  workflow_dispatch:
+    inputs:
+      approved_sha:
+        description: 'Full main commit SHA you reviewed in the preview'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: pages-production
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pages: read
+    steps:
+      - name: Require explicit activation and reviewed revision
+        env:
+          ENABLED: ${{ vars.PAGES_RELEASE_ENABLED }}
+          APPROVED: ${{ inputs.approved_sha }}
+          CURRENT: ${{ github.sha }}
+        run: |
+          test "$ENABLED" = "true" || { echo 'Release disabled. Complete docs/SETUP.md first.'; exit 1; }
+          test "$APPROVED" = "$CURRENT" || { echo 'Approved SHA must equal this main workflow revision.'; exit 1; }
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify approval controls before building
+        run: node scripts/release-preflight.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy teacher-reviewed artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
