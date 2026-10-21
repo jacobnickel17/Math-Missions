@@ -1,5 +1,8 @@
 # AI-assisted drafting and revision
 
+## Story missions added in this batch
+The Blackout Ledger and The Signal Window use the richer story-v1 format: four teaching chapters, guided/practice/unlock items, reasoning, story reveals, two mastery forms, and report export. See docs/STORY-MISSIONS.md and assets/story-model.js. For AI revisions, preserve this schema and stable IDs; run npm test and npm run build. The simple import-draft script below remains for practice-format lessons only. New story-format proposals should be added on a review branch, registered with type story and status draft, and verified by validateStory. Update revision only when changed content should start a new local student attempt.
+
 This workflow works with your chosen AI writing/coding tool. It does not require a browser API key, paid API integration, or unattended automation. Automated tests validate drafts; teachers approve pedagogy and release. Scheduled AI generation and an API-powered one-click generator are later decisions.
 
 ## New lesson

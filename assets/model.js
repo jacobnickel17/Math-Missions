@@ -27,9 +27,9 @@ export function validateCatalog(c) {
     check(Number.isInteger(m.minutes) && m.minutes > 0 && m.minutes <= 300, m.id + ': minutes must be 1–300');
     check(['draft','published','archived'].includes(m.status), m.id + ': invalid status');
     check(arcs.has(m.arcId), m.id + ': unknown story arc');
-    check(['legacy','practice'].includes(m.type), m.id + ': invalid mission type');
+    check(['legacy','practice','story'].includes(m.type), m.id + ': invalid mission type');
     check(localPath(m.type === 'legacy' ? m.path : m.lesson), m.id + ': unsafe content path');
-    if (m.type === 'practice') check(m.lesson === 'content/lessons/' + m.id + '.json', m.id + ': lesson file must match ID');
+    if (m.type !== 'legacy') check(m.lesson === 'content/lessons/' + m.id + '.json', m.id + ': lesson file must match ID');
   }
   for (const a of c.assignments) {
     check(text(a.instructions) && text(a.nextStep), a.id + ': directions and next step required');
@@ -52,6 +52,6 @@ export function validateLesson(l) {
   }
   return e;
 }
-export function missionUrl(m, prefix = '../') { return m.type === 'legacy' ? prefix + m.path : 'lesson.html?id=' + encodeURIComponent(m.id); }
+export function missionUrl(m, prefix = '../') { return m.type === 'legacy' ? prefix + m.path : (m.type === 'story' ? 'story.html' : 'lesson.html') + '?id=' + encodeURIComponent(m.id); }
 export function publishedMissions(c) { return c.missions.filter(m => m.status === 'published'); }
 export function equation(p) { return p.a + 'x + (' + p.b + ') = ' + p.c + 'x + (' + p.d + ')'; }

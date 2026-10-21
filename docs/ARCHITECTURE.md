@@ -16,6 +16,7 @@ Equation Vault is a standalone application with four guided gates, mastery asses
 - /missions/ shows assignment instructions, ordered mission links, and what to do next. Share ?assignment=unit-4.
 - /teacher/ offers a metadata proposal form and a validated complete catalog editor. Copy into GitHub on a new branch; no website token or browser-only master copy.
 - /missions/lesson.html renders the initial structured linear-equation practice format.
+- /missions/story.html renders the two full draft sequels: The Blackout Ledger (profit models and discrete decisions) and The Signal Window (inequalities and feasible plans). Teaching, worked steps, guided/practice/independent checkpoints, reasoning, story reveals and alternate mastery forms live in story-v1 JSON. Each mission has isolated local saving and report export. The draft sequence is available from the teacher workspace; neither sequel is assigned automatically.
 - Draft/archived lessons do not appear in the student library; assignments cannot target them.
 - Assignment IDs and lesson IDs survive title edits. Current public assignments are class-wide, without student identifiers.
 - Acceptance: rename a lesson in a branch, see it in preview, preserve its ID and link.

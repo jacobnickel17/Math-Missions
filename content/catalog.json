@@ -4,7 +4,7 @@
     {
       "id": "signal-zero",
       "title": "Operation Signal Zero",
-      "briefing": "Restore the station by using algebra to unlock each checkpoint."
+      "briefing": "Free the rover, recover a school showcase’s missing broadcast, and leave a message for the next crew."
     }
   ],
   "missions": [
@@ -37,6 +37,40 @@
       "arcId": "signal-zero",
       "type": "practice",
       "lesson": "content/lessons/signal-checkpoint.json"
+    },
+    {
+      "id": "blackout-ledger",
+      "title": "The Blackout Ledger",
+      "unit": "Unit 4 · Mission 2",
+      "summary": "Fund a receiver for a missing student broadcast: compare plans, model profit, and make whole-number decisions.",
+      "skills": [
+        "Linear cost models",
+        "Tables and crossover decisions",
+        "Revenue versus profit",
+        "Whole-number thresholds"
+      ],
+      "minutes": 60,
+      "status": "draft",
+      "arcId": "signal-zero",
+      "type": "story",
+      "lesson": "content/lessons/blackout-ledger.json"
+    },
+    {
+      "id": "signal-window",
+      "title": "The Signal Window",
+      "unit": "Unit 5 · Mission 3",
+      "summary": "Recover the rest of the archive: solve and graph inequalities, reverse negative division, and combine real-world limits.",
+      "skills": [
+        "Translate inequalities",
+        "Solve and graph solution sets",
+        "Negative sign reversal",
+        "Feasible whole-number plans"
+      ],
+      "minutes": 60,
+      "status": "draft",
+      "arcId": "signal-zero",
+      "type": "story",
+      "lesson": "content/lessons/signal-window.json"
     }
   ],
   "assignments": [

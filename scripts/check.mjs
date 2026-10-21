@@ -1,12 +1,13 @@
 import {readFile,access} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {validateCatalog,validateLesson} from '../assets/model.js';
+import {validateStory} from '../assets/story-model.js';
 export async function check(root=new URL('../',import.meta.url)) {
  const c=JSON.parse(await readFile(new URL('content/catalog.json',root),'utf8'));const errors=validateCatalog(c);
  if(errors.length)throw Error(errors.join('\n'));
  for(const m of c.missions){
   if(m.type==='legacy')await access(new URL(m.path+'index.html',root));
-  else {const l=JSON.parse(await readFile(new URL(m.lesson,root),'utf8'));const e=validateLesson(l);if(l.id!==m.id)e.push('Lesson ID mismatch');if(e.length)throw Error(m.id+': '+e.join('; '));}
+  else {const l=JSON.parse(await readFile(new URL(m.lesson,root),'utf8'));const e=m.type==='story'?validateStory(l):validateLesson(l);if(l.id!==m.id)e.push('Lesson ID mismatch');if(l.nextMission&&!c.missions.some(n=>n.id===l.nextMission))e.push('Unknown next mission');if(e.length)throw Error(m.id+': '+e.join('; '));}
  }
  const vault=await readFile(new URL('unit-4/equation-vault/index.html',root));
  const baseline=JSON.parse(await readFile(new URL('tests/vault-baseline.json',root),'utf8'));

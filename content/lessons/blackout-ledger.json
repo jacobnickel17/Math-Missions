@@ -1,0 +1,690 @@
+{
+  "format": "story-v1",
+  "revision": 1,
+  "id": "blackout-ledger",
+  "objective": "Build and compare linear cost models, distinguish revenue from profit, and make defensible decisions when quantities must be whole numbers.",
+  "instructions": "Finish four chapters in order: learn a new move, check a guided example, practice, and solve an independent checkpoint. Record your reasoning to recover each broadcast fragment. Finish a five-question mastery check and export your report.",
+  "opening": "The Equation Vault opens. Your rover rolls out carrying an old memory card labeled SIGNAL ZERO. At Meridian Middle’s student-run Night Market, the robotics club is rehearsing an approved projection show. But the card contains an unfinished broadcast: “If you can hear this, follow the numbers. The missing part is…” Then static. Your team—Maya, the designer; Eli, the sound tech; and you, the analyst—has one afternoon to fund a replacement data receiver. The story is fictional; all prices are simplified classroom models with no tax, discounts, or unsold inventory.",
+  "stages": [
+    {
+      "id": "model",
+      "title": "The receipt nobody signed",
+      "story": "A faded receipt lists two badge-printing services. The club will sell the badges to fund the receiver. Service A charges $36 once, plus $1.50 per badge. Service B charges $12 once, plus $3 per badge. A handwritten note says, “The cheapest setup is not always the cheapest mission.”",
+      "teach": [
+        "A fixed cost happens once. A variable cost changes with the quantity. For n badges, A(n) = 36 + 1.50n and B(n) = 12 + 3n. Both are total costs in dollars, not prices per badge.",
+        "The input n is a nonnegative whole number. Keep the units attached: dollars per badge × badges = dollars. Multiplication happens before addition.",
+        "A model can run forward to predict a total or backward to recover a missing quantity. This extends the Vault’s equations into interpreting real receipts."
+      ],
+      "worked": [
+        "Different example: a sticker order costs $18 setup plus $2.50 per sheet. Let s be whole sheets. C(s) = 18 + 2.50s.",
+        "For 12 sheets, C(12) = 18 + 2.50(12) = $48. The setup fee is charged once.",
+        "If the bill is $63, solve 18 + 2.50s = 63. Subtract 18, then divide by 2.50: s = 18 sheets.",
+        "Check: 18 + 2.50(18) = 63. The answer is a quantity, so include sheets."
+      ],
+      "questions": [
+        {
+          "id": "ledger-model",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Which expression gives Service A’s TOTAL cost for n badges?",
+          "choices": [
+            {
+              "id": "total",
+              "text": "36 + 1.50n"
+            },
+            {
+              "id": "reversed",
+              "text": "36n + 1.50"
+            },
+            {
+              "id": "combined",
+              "text": "37.50n"
+            }
+          ],
+          "answer": "total",
+          "hint": "Separate the one-time fee from the per-badge cost.",
+          "explanation": "The $36 fee is fixed; $1.50 is multiplied by the number of badges."
+        },
+        {
+          "id": "ledger-cost",
+          "type": "number",
+          "phase": "practice",
+          "prompt": "The club orders 20 badges from A. What is the total cost, in dollars?",
+          "answer": 66,
+          "calculation": {
+            "op": "add",
+            "args": [
+              36,
+              {
+                "op": "multiply",
+                "args": [
+                  1.5,
+                  20
+                ]
+              }
+            ]
+          },
+          "hint": "Substitute 20 for n in 36 + 1.50n.",
+          "explanation": "36 + 1.50(20) = 36 + 30 = $66.",
+          "answerLabel": "Total dollars"
+        },
+        {
+          "id": "ledger-receipt",
+          "type": "number",
+          "phase": "unlock",
+          "prompt": "An A receipt totals $81. How many badges were ordered?",
+          "answer": 30,
+          "calculation": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [
+                  81,
+                  36
+                ]
+              },
+              1.5
+            ]
+          },
+          "hint": null,
+          "explanation": "36 + 1.50n = 81 gives 1.50n = 45, so n = 30 badges. Check: 36 + 45 = 81.",
+          "answerLabel": "Badges"
+        }
+      ],
+      "reflection": "Explain how you separated the fixed and variable costs, and how you checked the recovered badge count.",
+      "reveal": "The receipt’s back has a stamp: MERIDIAN ARCHIVE — STUDENT COPY. Maya recognizes the logo from an old school art club. The broadcast might be a message left by students, not a broken announcement."
+    },
+    {
+      "id": "compare",
+      "title": "The crossover clue",
+      "story": "Eli wants B because its setup fee is lower. Maya wants A because its badge rate is lower. Neither has considered how many badges the club will actually order. The next fragment unlocks only after your team settles the disagreement with evidence.",
+      "teach": [
+        "A break-even point tells when totals are equal. It does not tell which choice is better for every quantity. Compare both sides of the crossover.",
+        "For A and B, set 36 + 1.50n = 12 + 3n. Then 24 = 1.50n, so n = 16. At 16 badges both cost $60.",
+        "Below 16, B is cheaper. Above 16, A is cheaper. A table connects an equation to a decision; compare TOTAL costs at the same input."
+      ],
+      "worked": [
+        "Different rental example: X = 20 + 4h and Y = 8 + 6h, with h hours.",
+        "Set totals equal: 20 + 4h = 8 + 6h. Then 12 = 2h, so h = 6. Both cost $44.",
+        "At h = 2: X = $28 and Y = $20, so Y wins. At h = 10: X = $60 and Y = $68, so X wins.",
+        "State the condition: choose Y for fewer than 6 hours, either at 6, X for more than 6."
+      ],
+      "table": {
+        "caption": "Badge total costs — same quantity, two services",
+        "headers": [
+          "Badges n",
+          "A: 36 + 1.50n",
+          "B: 12 + 3n"
+        ],
+        "rows": [
+          [
+            0,
+            "$36",
+            "$12"
+          ],
+          [
+            8,
+            "$48",
+            "$36"
+          ],
+          [
+            16,
+            "$60",
+            "$60"
+          ],
+          [
+            24,
+            "$72",
+            "$84"
+          ],
+          [
+            32,
+            "$84",
+            "$108"
+          ]
+        ]
+      },
+      "questions": [
+        {
+          "id": "ledger-equal",
+          "type": "number",
+          "phase": "guided",
+          "prompt": "At how many badges do A and B have equal total costs?",
+          "answer": 16,
+          "calculation": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [
+                  36,
+                  12
+                ]
+              },
+              {
+                "op": "subtract",
+                "args": [
+                  3,
+                  1.5
+                ]
+              }
+            ]
+          },
+          "hint": "Solve 36 + 1.50n = 12 + 3n.",
+          "explanation": "The fixed-cost difference is $24 and the rate difference is $1.50 per badge. 24 ÷ 1.50 = 16 badges.",
+          "answerLabel": "Badges"
+        },
+        {
+          "id": "ledger-order",
+          "type": "choice",
+          "phase": "practice",
+          "prompt": "The club needs 24 badges. Which recommendation is supported by the table?",
+          "choices": [
+            {
+              "id": "a",
+              "text": "Choose A: $72 versus B’s $84."
+            },
+            {
+              "id": "b",
+              "text": "Choose B because its setup fee is lower."
+            },
+            {
+              "id": "tie",
+              "text": "Either: they always cost the same."
+            }
+          ],
+          "answer": "a",
+          "hint": "Compare both totals at n = 24, rather than comparing only fees.",
+          "explanation": "A costs $72, B costs $84. A saves $12 for this order."
+        },
+        {
+          "id": "ledger-rule",
+          "type": "choice",
+          "phase": "unlock",
+          "prompt": "Which rule is valid for every nonnegative whole-number badge order?",
+          "choices": [
+            {
+              "id": "correct",
+              "text": "B below 16 badges; either at 16; A above 16."
+            },
+            {
+              "id": "reverse",
+              "text": "A below 16; either at 16; B above 16."
+            },
+            {
+              "id": "always",
+              "text": "A is always cheaper because its rate is lower."
+            }
+          ],
+          "answer": "correct",
+          "hint": null,
+          "explanation": "B’s lower setup wins below the crossover. A’s lower rate wins above it. At n = 16 both cost $60."
+        }
+      ],
+      "reflection": "Use a quantity below the crossover and a quantity above it to explain why a single “always cheaper” claim fails.",
+      "reveal": "At the crossover point, the recovered audio says: “We saved the first half in plain sight. The second half is for the people who come after us.” The archive date is seven years old. Someone planned a future audience."
+    },
+    {
+      "id": "profit",
+      "title": "The money that is not yours yet",
+      "story": "The club chooses A for its planned order. Each badge sells for $5. Eli sees $120 of sales from 24 badges and calls it $120 earned. Maya points to the printing bill. The receiver costs money; the team needs the amount left AFTER costs.",
+      "teach": [
+        "Revenue is money collected from sales. Cost is money spent. Profit is revenue minus cost. A negative profit is a loss.",
+        "If every ordered badge sells for $5, R(n) = 5n. With A, C(n) = 36 + 1.50n. Therefore P(n) = 5n − (36 + 1.50n) = 3.50n − 36.",
+        "The parentheses matter: subtract BOTH the setup and variable cost. The contribution of one extra sold badge is $3.50 after its printing cost. This is the new skill of building a net-change model.",
+        "Our model assumes every ordered badge sells. If some remain unsold, revenue depends on badges SOLD while cost depends on badges PRINTED; one n would no longer describe both quantities."
+      ],
+      "worked": [
+        "Different example: keychains sell for $6 each and cost $20 setup plus $2 per keychain. Assume every keychain sells.",
+        "R(k) = 6k and C(k) = 20 + 2k, so P(k) = 6k − (20 + 2k) = 4k − 20.",
+        "At k = 3, P = 12 − 20 = −$8: the project has not yet recovered its setup cost.",
+        "At k = 9, P = 36 − 20 = $16. Check separately: revenue $54 minus cost $38 = $16."
+      ],
+      "questions": [
+        {
+          "id": "ledger-profit-model",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Which expression is the badge project’s PROFIT if every printed badge sells?",
+          "choices": [
+            {
+              "id": "profit",
+              "text": "5n − (36 + 1.50n)"
+            },
+            {
+              "id": "revenue",
+              "text": "5n"
+            },
+            {
+              "id": "wrong-sign",
+              "text": "5n − 36 + 1.50n"
+            }
+          ],
+          "answer": "profit",
+          "hint": "Start with sales money, then subtract the entire cost.",
+          "explanation": "Profit is 5n − (36 + 1.50n), which simplifies to 3.50n − 36."
+        },
+        {
+          "id": "ledger-net",
+          "type": "number",
+          "phase": "practice",
+          "prompt": "All 20 badges sell. What is profit in dollars?",
+          "answer": 34,
+          "calculation": {
+            "op": "subtract",
+            "args": [
+              {
+                "op": "multiply",
+                "args": [
+                  3.5,
+                  20
+                ]
+              },
+              36
+            ]
+          },
+          "hint": "Evaluate 3.50n − 36 at n = 20.",
+          "explanation": "Revenue = $100. Cost = $66. Profit = $34.",
+          "answerLabel": "Profit dollars"
+        },
+        {
+          "id": "ledger-target",
+          "type": "number",
+          "phase": "unlock",
+          "prompt": "The receiver needs exactly $69 of profit. Under this model, how many badges must be printed AND sold?",
+          "answer": 30,
+          "calculation": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "add",
+                "args": [
+                  69,
+                  36
+                ]
+              },
+              3.5
+            ]
+          },
+          "hint": null,
+          "explanation": "3.50n − 36 = 69 gives 3.50n = 105, so n = 30. Revenue $150 minus cost $81 leaves $69.",
+          "answerLabel": "Badges"
+        }
+      ],
+      "reflection": "Explain why sales revenue alone cannot pay for the receiver, and state the assumption that lets one variable model both printing and sales.",
+      "reveal": "The receiver starts. A waveform appears: not an emergency signal, but a student-made music track with gaps. Beneath it is a filename: TO_NEXT_YEAR_FINAL_FINAL_v7. Maya laughs: “That is definitely a student file.”"
+    },
+    {
+      "id": "whole",
+      "title": "The fraction on the invoice",
+      "story": "The replacement cable adds $8, so the team now needs at least $77 profit. Solving for exactly $77 gives a fractional badge count. You cannot print part of a badge. This last checkpoint tests whether you can turn algebra into a decision someone could actually use.",
+      "teach": [
+        "An algebraic threshold may lie between whole-number quantities. Interpret it using the context and verify the neighboring whole numbers.",
+        "For at least $77 profit, the equality boundary is 3.50n − 36 = 77, giving n = 113/3.5 ≈ 32.29. This is a boundary, not a usable badge order.",
+        "At 32 badges profit is $76, too little. At 33 it is $79.50, enough. The smallest workable count is 33; always test the adjacent integers.",
+        "Do not blindly round to the nearest integer. Rounding 32.29 to 32 would miss the goal. The next mission will express “at least” with an inequality and describe ALL workable quantities."
+      ],
+      "worked": [
+        "Different example: a stand earns P(k) = 4k − 15 dollars and needs at least $30 profit.",
+        "The equality 4k − 15 = 30 gives k = 11.25.",
+        "11 items give $29, which misses $30. 12 items give $33, which meets it.",
+        "The minimum usable count is 12. If the task instead capped a resource, the direction of the decision could change."
+      ],
+      "questions": [
+        {
+          "id": "ledger-threshold",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Why is 32 badges not enough for the $77 target?",
+          "choices": [
+            {
+              "id": "short",
+              "text": "Profit is $76, which is $1 short."
+            },
+            {
+              "id": "round",
+              "text": "It is enough because 32.29 rounds to 32."
+            },
+            {
+              "id": "cost",
+              "text": "32 badges cost $77 exactly."
+            }
+          ],
+          "answer": "short",
+          "hint": "Calculate 3.50(32) − 36 and compare it to 77.",
+          "explanation": "32 badges produce $76 profit. A target is met by checking the quantity, not by ordinary rounding."
+        },
+        {
+          "id": "ledger-minimum",
+          "type": "number",
+          "phase": "practice",
+          "prompt": "What is the smallest whole-number badge count that yields at least $77 profit?",
+          "answer": 33,
+          "calculation": {
+            "op": "ceil",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "add",
+                    "args": [
+                      77,
+                      36
+                    ]
+                  },
+                  3.5
+                ]
+              }
+            ]
+          },
+          "hint": "Test 32 and 33 in P(n) = 3.50n − 36.",
+          "explanation": "32 gives $76; 33 gives $79.50. The minimum is 33 badges.",
+          "answerLabel": "Badges"
+        },
+        {
+          "id": "ledger-assumption",
+          "type": "choice",
+          "phase": "unlock",
+          "prompt": "The team prints 33 badges but sells only 28. Which statement is correct?",
+          "choices": [
+            {
+              "id": "separate",
+              "text": "Profit is 5(28) − [36 + 1.50(33)] = $54.50, so the $77 goal is missed."
+            },
+            {
+              "id": "same",
+              "text": "Use P(33) = $79.50 because printed badges count as sales."
+            },
+            {
+              "id": "ignore",
+              "text": "Profit is 5(28) = $140; printing costs no longer matter."
+            }
+          ],
+          "answer": "separate",
+          "hint": null,
+          "explanation": "Revenue is $140 from 28 sales. Printing cost is $85.50 for 33 badges. Profit is $54.50. The all-sell assumption matters."
+        }
+      ],
+      "reflection": "Defend the minimum whole-number order for the target, then explain how unsold inventory changes the model.",
+      "reveal": "The receiver decodes: “This is not a rescue call. It is a handoff. Meet us at the SIGNAL WINDOW.” The next file lists a budget cap, a minimum runtime, and a battery reserve. Equalities found the boundaries. To hear the whole message, your team must find the possibilities BETWEEN them."
+    }
+  ],
+  "mastery": {
+    "pass": 4,
+    "forms": [
+      [
+        {
+          "id": "ledger-m1a",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "A new printer charges $24 setup plus $2 per badge. What is the total cost for 18 badges?",
+          "answer": 60,
+          "calculation": {
+            "op": "add",
+            "args": [
+              24,
+              {
+                "op": "multiply",
+                "args": [
+                  2,
+                  18
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "24 + 2(18) = $60.",
+          "answerLabel": "Dollars"
+        },
+        {
+          "id": "ledger-m2a",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Compare X = 24 + 2n and Y = 6 + 3n. At how many badges are the totals equal?",
+          "answer": 18,
+          "calculation": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [
+                  24,
+                  6
+                ]
+              },
+              {
+                "op": "subtract",
+                "args": [
+                  3,
+                  2
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "24 + 2n = 6 + 3n gives 18 = n; both totals equal $60.",
+          "answerLabel": "Badges"
+        },
+        {
+          "id": "ledger-m3a",
+          "type": "choice",
+          "phase": "mastery",
+          "prompt": "For 30 badges, which printer is cheaper: X = 24 + 2n or Y = 6 + 3n?",
+          "choices": [
+            {
+              "id": "x",
+              "text": "X: $84, versus Y’s $96."
+            },
+            {
+              "id": "y",
+              "text": "Y, because its setup fee is lower."
+            },
+            {
+              "id": "equal",
+              "text": "They are equal at every quantity."
+            }
+          ],
+          "answer": "x",
+          "hint": null,
+          "explanation": "At n = 30, X is $84 and Y is $96."
+        },
+        {
+          "id": "ledger-m4a",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Badges sell for $5 each. Cost is 24 + 2n. If all 20 printed badges sell, what is profit?",
+          "answer": 36,
+          "calculation": {
+            "op": "subtract",
+            "args": [
+              {
+                "op": "multiply",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [
+                      5,
+                      2
+                    ]
+                  },
+                  20
+                ]
+              },
+              24
+            ]
+          },
+          "hint": null,
+          "explanation": "Revenue is $100 and cost is $64, leaving $36.",
+          "answerLabel": "Profit dollars"
+        },
+        {
+          "id": "ledger-m5a",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Using profit P(n) = 3n − 24, what is the minimum whole number sold to earn at least $50 profit?",
+          "answer": 25,
+          "calculation": {
+            "op": "ceil",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "add",
+                    "args": [
+                      50,
+                      24
+                    ]
+                  },
+                  3
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "The threshold is 74/3 ≈ 24.67. 24 gives $48; 25 gives $51, so 25 is the minimum.",
+          "answerLabel": "Badges"
+        }
+      ],
+      [
+        {
+          "id": "ledger-m1b",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "A new printer charges $28 setup plus $1.50 per badge. What is the total for 16 badges?",
+          "answer": 52,
+          "calculation": {
+            "op": "add",
+            "args": [
+              28,
+              {
+                "op": "multiply",
+                "args": [
+                  1.5,
+                  16
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "28 + 1.50(16) = $52.",
+          "answerLabel": "Dollars"
+        },
+        {
+          "id": "ledger-m2b",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Compare X = 28 + 1.50n and Y = 8 + 2.50n. At how many badges are costs equal?",
+          "answer": 20,
+          "calculation": {
+            "op": "divide",
+            "args": [
+              {
+                "op": "subtract",
+                "args": [
+                  28,
+                  8
+                ]
+              },
+              {
+                "op": "subtract",
+                "args": [
+                  2.5,
+                  1.5
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "28 + 1.50n = 8 + 2.50n gives n = 20. Both cost $58.",
+          "answerLabel": "Badges"
+        },
+        {
+          "id": "ledger-m3b",
+          "type": "choice",
+          "phase": "mastery",
+          "prompt": "At 30 badges, which is cheaper: X = 28 + 1.50n or Y = 8 + 2.50n?",
+          "choices": [
+            {
+              "id": "x",
+              "text": "X: $73 versus Y’s $83."
+            },
+            {
+              "id": "y",
+              "text": "Y, since its fixed fee is lower."
+            },
+            {
+              "id": "equal",
+              "text": "Both cost $58 at 30 badges."
+            }
+          ],
+          "answer": "x",
+          "hint": null,
+          "explanation": "X(30) = $73; Y(30) = $83. $58 is their cost at 20 badges."
+        },
+        {
+          "id": "ledger-m4b",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Each badge sells for $5.50; cost is 28 + 1.50n. All 18 printed badges sell. What is profit?",
+          "answer": 44,
+          "calculation": {
+            "op": "subtract",
+            "args": [
+              {
+                "op": "multiply",
+                "args": [
+                  {
+                    "op": "subtract",
+                    "args": [
+                      5.5,
+                      1.5
+                    ]
+                  },
+                  18
+                ]
+              },
+              28
+            ]
+          },
+          "hint": null,
+          "explanation": "Revenue is $99; cost is $55; profit is $44.",
+          "answerLabel": "Profit dollars"
+        },
+        {
+          "id": "ledger-m5b",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Profit is P(n) = 4n − 28. What is the minimum whole-number count for at least $45 profit?",
+          "answer": 19,
+          "calculation": {
+            "op": "ceil",
+            "args": [
+              {
+                "op": "divide",
+                "args": [
+                  {
+                    "op": "add",
+                    "args": [
+                      45,
+                      28
+                    ]
+                  },
+                  4
+                ]
+              }
+            ]
+          },
+          "hint": null,
+          "explanation": "73/4 = 18.25. 18 gives $44, short; 19 gives $48, enough.",
+          "answerLabel": "Badges"
+        }
+      ]
+    ]
+  },
+  "ending": "You have funded the receiver on paper and recovered the first half of the broadcast. The voice belongs to an earlier Meridian student crew. They hid a record of ordinary school life—inside jokes, art, and music—in a time-capsule broadcast. But its last segment only plays inside a valid “signal window.” Your next job is to plan a showcase session that meets every limit.",
+  "reportPrompt": "Recommend a badge plan and a whole-number sales target. Use cost, revenue, profit, and one limitation of the model to defend your decision.",
+  "nextMission": "signal-window"
+}

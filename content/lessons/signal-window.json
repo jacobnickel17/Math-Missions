@@ -1,0 +1,532 @@
+{
+  "format": "story-v1",
+  "revision": 1,
+  "id": "signal-window",
+  "objective": "Translate real-world limits into inequalities, solve and graph solution sets, reverse direction when dividing by a negative, and combine constraints with whole-number domains.",
+  "instructions": "Continue the missing-broadcast story through four chapters. Use x for the quantity named in each problem. Inequality answers need a boundary and relation; number-line answers need a boundary, endpoint type, and shading direction. Finish mastery and export your report.",
+  "opening": "The new receiver plays a seven-year-old student voice: “We were here, even when nobody was filming. This is our school, in our words.” Then the signal stops. Maya finds the rest of the file inside the Night Market projection schedule. Your rover can replay it at a student booth—but the schedule must respect a spending cap, a minimum audience goal, and a simulated energy reserve. These are classroom planning models, not instructions for real electrical equipment.",
+  "stages": [
+    {
+      "id": "translate",
+      "title": "The boundary is not the answer",
+      "story": "Eli has exactly $90 in the booth budget. An approved rental costs $18 setup plus $6 per demo session. The ledger mission taught you how to find a boundary. This mission asks a bigger question: which session counts work?",
+      "teach": [
+        "An equation describes equal quantities. An inequality describes a comparison and often has many solutions. “At most” or “no more than” includes the boundary: ≤. “At least” includes the boundary: ≥.",
+        "“Fewer than” means < and “more than” means >. These strict comparisons exclude equality. Translate the entire quantity being compared, not only its per-unit part.",
+        "Let x be demo sessions. The spending limit is 18 + 6x ≤ 90. The equality gives the boundary x = 12, but 0 through 12 whole sessions are affordable.",
+        "Always state the domain. Negative demo counts make no sense, and half a scheduled session is not a session in this model. First solve the real-number inequality; then apply x = 0, 1, 2, … for planning."
+      ],
+      "worked": [
+        "Different example: a club has $44. Tickets cost $4 each plus an $8 order fee. Let t be tickets.",
+        "“Spend at most $44” becomes 8 + 4t ≤ 44.",
+        "Subtract 8 from both sides: 4t ≤ 36. Divide by positive 4: t ≤ 9.",
+        "The real-number solution includes values like 8.5, but the usable whole-ticket counts are 0 through 9. The boundary 9 is included."
+      ],
+      "questions": [
+        {
+          "id": "window-translate",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Which model means the $18 setup plus $6 per session must cost AT MOST $90?",
+          "choices": [
+            {
+              "id": "cap",
+              "text": "18 + 6x ≤ 90"
+            },
+            {
+              "id": "minimum",
+              "text": "18 + 6x ≥ 90"
+            },
+            {
+              "id": "exact",
+              "text": "18 + 6x = 90 only"
+            }
+          ],
+          "answer": "cap",
+          "hint": "“At most” means less than OR equal to the limit.",
+          "explanation": "18 + 6x ≤ 90 allows cheaper plans as well as the plan that spends exactly $90."
+        },
+        {
+          "id": "window-cap",
+          "type": "inequality",
+          "phase": "practice",
+          "prompt": "Solve 18 + 6x ≤ 90 over the real numbers. Enter its boundary and relation.",
+          "math": {
+            "a": 6,
+            "b": 18,
+            "c": 0,
+            "d": 90,
+            "op": "<="
+          },
+          "answer": {
+            "operator": "<=",
+            "boundary": 12
+          },
+          "hint": "Subtract 18, then divide by positive 6.",
+          "explanation": "6x ≤ 72 gives x ≤ 12. Twelve sessions are included."
+        },
+        {
+          "id": "window-language",
+          "type": "choice",
+          "phase": "unlock",
+          "prompt": "The team wants MORE THAN 8 visitors at its first demonstration. Which condition matches?",
+          "choices": [
+            {
+              "id": "strict",
+              "text": "v > 8, so the smallest whole-number visitor count is 9."
+            },
+            {
+              "id": "included",
+              "text": "v ≥ 8, so 8 works."
+            },
+            {
+              "id": "opposite",
+              "text": "v < 8, so 7 works."
+            }
+          ],
+          "answer": "strict",
+          "hint": null,
+          "explanation": "“More than” excludes 8. Visitors are whole people, so 9 is the smallest possible count."
+        }
+      ],
+      "reflection": "Explain why finding x = 12 does not describe every affordable plan, and distinguish “at most” from “fewer than.”",
+      "reveal": "The first hidden clip shows students filming their empty lunch table, then filling it with friends who usually avoid the camera. A caption reads: “Save a place for someone new.” The archive is about belonging, not a secret prize."
+    },
+    {
+      "id": "graph",
+      "title": "Draw the signal window",
+      "story": "Maya turns the limits into a timeline so the whole team can see them. A note says the receiver needs at least 5 minutes to load the full clip. Another says the intro must last less than 9 minutes. Your number line needs to show exactly what is allowed.",
+      "teach": [
+        "A closed circle includes the boundary (≤ or ≥). An open circle excludes it (< or >). Shade left for smaller numbers and right for larger numbers.",
+        "For x ≤ 12, draw a closed circle at 12 and shade left. For x > 4, draw an open circle at 4 and shade right. The graph represents all real solutions unless a domain is stated.",
+        "Check a test value in the shaded region. If you graph x > 4, 5 should satisfy the condition and 3 should not. A boundary test tells whether the circle is open or closed.",
+        "The graph tool uses a schematic: choose the boundary, endpoint, and direction. For counts, only nonnegative integer points from the solution set are usable even when the real-number graph is a ray."
+      ],
+      "worked": [
+        "Different example: 3t + 2 < 20. Subtract 2: 3t < 18. Divide by 3: t < 6.",
+        "Use an OPEN circle at 6 because 3(6) + 2 = 20, which is not less than 20.",
+        "Shade LEFT: t = 5 gives 17 < 20, true. t = 7 gives 23 < 20, false.",
+        "If t counts whole trials, use 0, 1, 2, 3, 4, 5 rather than every point on the real-number ray."
+      ],
+      "questions": [
+        {
+          "id": "window-graph-cap",
+          "type": "graph",
+          "phase": "guided",
+          "prompt": "Graph x ≤ 12 over the real numbers.",
+          "math": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 12,
+            "op": "<="
+          },
+          "answer": {
+            "boundary": 12,
+            "direction": "left",
+            "closed": true
+          },
+          "hint": "The boundary is included, and solutions are smaller.",
+          "explanation": "Closed circle at 12; shade left. The boundary 12 is a solution."
+        },
+        {
+          "id": "window-graph-min",
+          "type": "graph",
+          "phase": "practice",
+          "prompt": "Graph t ≥ 5 over the real numbers for a minimum loading time of 5 minutes.",
+          "math": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 5,
+            "op": ">="
+          },
+          "answer": {
+            "boundary": 5,
+            "direction": "right",
+            "closed": true
+          },
+          "hint": "“At least” includes 5. Longer times lie to the right.",
+          "explanation": "Closed circle at 5; shade right. Five minutes is included."
+        },
+        {
+          "id": "window-graph-strict",
+          "type": "graph",
+          "phase": "unlock",
+          "prompt": "Graph t < 9 over the real numbers for an intro that must be less than 9 minutes.",
+          "math": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 9,
+            "op": "<"
+          },
+          "answer": {
+            "boundary": 9,
+            "direction": "left",
+            "closed": false
+          },
+          "hint": null,
+          "explanation": "Open circle at 9; shade left. Exactly 9 minutes is excluded."
+        }
+      ],
+      "reflection": "Explain how your graph communicates both whether the boundary works and which other values are allowed. Include a test value.",
+      "reveal": "A second clip shows a student saying: “I thought nobody would remember my drawing.” The rover projects the same tiny star logo Maya found on the receiver receipt. The anonymous broadcast was a collaboration across clubs."
+    },
+    {
+      "id": "reverse",
+      "title": "The sign-flip trap",
+      "story": "The simulator begins with 50 energy points and uses 4 points per session. The demo plan must leave at least 14 points. Eli solves 50 − 4x ≥ 14 and writes x ≥ 9. “So more sessions saves more energy?” Maya asks. Something is wrong.",
+      "teach": [
+        "Add or subtract the same quantity on both sides without changing the inequality direction. Multiply or divide by a POSITIVE number without changing it.",
+        "When you multiply or divide by a NEGATIVE number, REVERSE the direction. Example: 2 < 5, but after multiplying by −1, −2 > −5. Negatives reverse order on the number line.",
+        "50 − 4x ≥ 14 becomes −4x ≥ −36. Dividing both sides by −4 gives x ≤ 9. More sessions consume more energy, so a maximum makes sense.",
+        "Substitute a boundary and values on each side. At x = 9, 14 points remain; at x = 10, only 10 remain, so 10 fails. This is a simplified simulation, not a battery safety calculation."
+      ],
+      "worked": [
+        "Different example: 40 − 3r > 10. Subtract 40: −3r > −30.",
+        "Divide by NEGATIVE 3: r < 10. Reverse > to <.",
+        "At r = 9, 13 > 10 is true. At r = 10, 10 > 10 is false, so the boundary is excluded.",
+        "With nonnegative whole rounds, r can be 0 through 9. “More than 10 points left” matters: exactly 10 is not enough."
+      ],
+      "questions": [
+        {
+          "id": "window-reserve",
+          "type": "inequality",
+          "phase": "guided",
+          "prompt": "Solve 50 − 4x ≥ 14 over the real numbers.",
+          "math": {
+            "a": -4,
+            "b": 50,
+            "c": 0,
+            "d": 14,
+            "op": ">="
+          },
+          "answer": {
+            "operator": "<=",
+            "boundary": 9
+          },
+          "hint": "After subtracting 50, divide by −4 and reverse the relation.",
+          "explanation": "−4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain."
+        },
+        {
+          "id": "window-error",
+          "type": "choice",
+          "phase": "practice",
+          "prompt": "Why is Eli’s conclusion x ≥ 9 incorrect?",
+          "choices": [
+            {
+              "id": "flip",
+              "text": "Dividing by −4 must reverse ≥ to ≤; x = 10 also fails the original limit."
+            },
+            {
+              "id": "subtract",
+              "text": "Subtracting 50 always reverses an inequality."
+            },
+            {
+              "id": "never",
+              "text": "Inequalities can never have negative coefficients."
+            }
+          ],
+          "answer": "flip",
+          "hint": "Which step uses a negative multiplier or divisor? Then test 10.",
+          "explanation": "Only multiplication/division by a negative reverses order. At 10 sessions, 50 − 40 = 10, below the required 14."
+        },
+        {
+          "id": "window-independent",
+          "type": "inequality",
+          "phase": "unlock",
+          "prompt": "A second simulator starts at 62 points, uses 5 per session, and must leave MORE THAN 17. Solve 62 − 5x > 17 over the real numbers.",
+          "math": {
+            "a": -5,
+            "b": 62,
+            "c": 0,
+            "d": 17,
+            "op": ">"
+          },
+          "answer": {
+            "operator": "<",
+            "boundary": 9
+          },
+          "hint": null,
+          "explanation": "−5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work."
+        }
+      ],
+      "reflection": "Explain the sign reversal with numbers on a number line, then use substitution to reject one incorrect session count.",
+      "reveal": "The next fragment is a recording of an ordinary school bell followed by laughter. “We almost deleted this because it wasn’t impressive,” a voice says. “Keep it. Ordinary days become history too.” Only the final combined schedule remains locked."
+    },
+    {
+      "id": "combine",
+      "title": "One plan, every constraint",
+      "story": "To play the complete archive, your booth needs at least 6 whole sessions. The budget allows at most 12. The energy simulator allows at most 9. Eli proposes 12 because the budget permits it. Your job is to check every condition together.",
+      "teach": [
+        "A feasible plan satisfies ALL the constraints at once. Do not choose a value just because it works in one model.",
+        "The conditions are x ≥ 6, x ≤ 12, and x ≤ 9, with x a nonnegative whole number. Their shared values are 6, 7, 8, 9. In compact notation, 6 ≤ x ≤ 9, with x an integer.",
+        "For maximum sessions, choose 9. It costs 18 + 6(9) = $72 and leaves 50 − 4(9) = 14 points. It also meets the minimum of 6.",
+        "For minimum cost while meeting the goal, choose 6. It costs $54 and leaves 26 points. Different objectives can select different feasible plans; state what you are optimizing."
+      ],
+      "worked": [
+        "Different example: a stand needs at least 4 whole demonstrations. Money allows d ≤ 10, but time allows d < 8.",
+        "Combine the real-number bounds: 4 ≤ d < 8.",
+        "Whole-number choices are 4, 5, 6, 7. The largest is 7, because the time limit excludes 8.",
+        "If maximizing reach, 7 may be best. If minimizing positive per-demo cost, 4 may be best. The constraints say what is possible; the objective says what to choose."
+      ],
+      "questions": [
+        {
+          "id": "window-feasible",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Which list contains ALL feasible whole-number session counts for x ≥ 6, x ≤ 12, and x ≤ 9?",
+          "choices": [
+            {
+              "id": "all",
+              "text": "6, 7, 8, 9"
+            },
+            {
+              "id": "budget",
+              "text": "6, 7, 8, 9, 10, 11, 12"
+            },
+            {
+              "id": "boundary",
+              "text": "Only 9"
+            }
+          ],
+          "answer": "all",
+          "hint": "Use the overlap and include both allowed endpoints.",
+          "explanation": "Every feasible count is at least 6 and at most 9. The budget does not remove any of those four."
+        },
+        {
+          "id": "window-maximum",
+          "type": "number",
+          "phase": "practice",
+          "prompt": "What is the maximum feasible whole-number session count under ALL three limits?",
+          "answer": 9,
+          "calculation": 9,
+          "hint": "Choose the largest value in the common solution set.",
+          "explanation": "9 satisfies the minimum, budget and reserve. 10 fails the energy reserve.",
+          "answerLabel": "Sessions"
+        },
+        {
+          "id": "window-plan",
+          "type": "choice",
+          "phase": "unlock",
+          "prompt": "The teacher asks for the LOWEST-COST feasible plan. Which recommendation is justified?",
+          "choices": [
+            {
+              "id": "six",
+              "text": "6 sessions: $54 cost and 26 energy points left; all limits satisfied."
+            },
+            {
+              "id": "nine",
+              "text": "9 sessions because maximizing sessions always minimizes cost."
+            },
+            {
+              "id": "zero",
+              "text": "0 sessions because it costs least, even though the minimum is 6."
+            }
+          ],
+          "answer": "six",
+          "hint": null,
+          "explanation": "6 is the smallest feasible count and each additional session costs $6. Zero misses the minimum; 9 costs $72."
+        }
+      ],
+      "reflection": "Choose an objective—maximum sessions or minimum cost—and justify one feasible plan by checking the minimum, budget, and reserve with actual values.",
+      "reveal": "All fragments join. The old crew’s final message appears: “Don’t just watch our year. Add yours.” The archive includes an empty slot labeled NEXT CREW. The tiny star is not a code to a prize—it is an invitation to leave one honest piece of school life for the students who follow you."
+    }
+  ],
+  "mastery": {
+    "pass": 4,
+    "forms": [
+      [
+        {
+          "id": "window-m1a",
+          "type": "inequality",
+          "phase": "mastery",
+          "prompt": "A rental costs $15 setup plus $5 per session. Solve the at-most-$65 budget condition 15 + 5x ≤ 65 over the real numbers.",
+          "math": {
+            "a": 5,
+            "b": 15,
+            "c": 0,
+            "d": 65,
+            "op": "<="
+          },
+          "answer": {
+            "operator": "<=",
+            "boundary": 10
+          },
+          "hint": null,
+          "explanation": "5x ≤ 50 gives x ≤ 10; equality is allowed."
+        },
+        {
+          "id": "window-m2a",
+          "type": "graph",
+          "phase": "mastery",
+          "prompt": "Graph t > 4 over the real numbers.",
+          "math": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 4,
+            "op": ">"
+          },
+          "answer": {
+            "boundary": 4,
+            "direction": "right",
+            "closed": false
+          },
+          "hint": null,
+          "explanation": "Open circle at 4; shade right. Four is excluded."
+        },
+        {
+          "id": "window-m3a",
+          "type": "inequality",
+          "phase": "mastery",
+          "prompt": "A simulator must leave at least 12 points. Solve 48 − 6x ≥ 12 over the real numbers.",
+          "math": {
+            "a": -6,
+            "b": 48,
+            "c": 0,
+            "d": 12,
+            "op": ">="
+          },
+          "answer": {
+            "operator": "<=",
+            "boundary": 6
+          },
+          "hint": null,
+          "explanation": "−6x ≥ −36 becomes x ≤ 6 after dividing by −6."
+        },
+        {
+          "id": "window-m4a",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Whole-session plans must satisfy x ≥ 4, x ≤ 10 and x ≤ 6. What is the maximum feasible session count?",
+          "answer": 6,
+          "calculation": 6,
+          "hint": null,
+          "explanation": "The common whole-number choices are 4, 5, 6. Maximum: 6.",
+          "answerLabel": "Sessions"
+        },
+        {
+          "id": "window-m5a",
+          "type": "choice",
+          "phase": "mastery",
+          "prompt": "A planner claims the whole-number solutions of 3 ≤ x < 7 are 3, 4, 5, 6, 7. What is the correction?",
+          "choices": [
+            {
+              "id": "exclude",
+              "text": "Exclude 7; the valid list is 3, 4, 5, 6."
+            },
+            {
+              "id": "both",
+              "text": "Exclude both 3 and 7."
+            },
+            {
+              "id": "equal",
+              "text": "Keep only 7, because it is the boundary."
+            }
+          ],
+          "answer": "exclude",
+          "hint": null,
+          "explanation": "The ≤ includes 3, but < excludes 7."
+        }
+      ],
+      [
+        {
+          "id": "window-m1b",
+          "type": "inequality",
+          "phase": "mastery",
+          "prompt": "A rental costs $20 setup plus $4 per session. Solve 20 + 4x ≤ 68 over the real numbers.",
+          "math": {
+            "a": 4,
+            "b": 20,
+            "c": 0,
+            "d": 68,
+            "op": "<="
+          },
+          "answer": {
+            "operator": "<=",
+            "boundary": 12
+          },
+          "hint": null,
+          "explanation": "4x ≤ 48 gives x ≤ 12. The boundary is included."
+        },
+        {
+          "id": "window-m2b",
+          "type": "graph",
+          "phase": "mastery",
+          "prompt": "Graph t ≥ 7 over the real numbers.",
+          "math": {
+            "a": 1,
+            "b": 0,
+            "c": 0,
+            "d": 7,
+            "op": ">="
+          },
+          "answer": {
+            "boundary": 7,
+            "direction": "right",
+            "closed": true
+          },
+          "hint": null,
+          "explanation": "Closed circle at 7; shade right. Seven is included."
+        },
+        {
+          "id": "window-m3b",
+          "type": "inequality",
+          "phase": "mastery",
+          "prompt": "A simulator must leave MORE THAN 15 points. Solve 55 − 5x > 15 over the real numbers.",
+          "math": {
+            "a": -5,
+            "b": 55,
+            "c": 0,
+            "d": 15,
+            "op": ">"
+          },
+          "answer": {
+            "operator": "<",
+            "boundary": 8
+          },
+          "hint": null,
+          "explanation": "−5x > −40 gives x < 8 after dividing by −5. Eight is excluded."
+        },
+        {
+          "id": "window-m4b",
+          "type": "number",
+          "phase": "mastery",
+          "prompt": "Whole-session plans must satisfy x ≥ 5, x ≤ 12 and x < 8. What is the maximum feasible count?",
+          "answer": 7,
+          "calculation": 7,
+          "hint": null,
+          "explanation": "Feasible whole counts are 5, 6, 7. Eight fails the strict reserve limit.",
+          "answerLabel": "Sessions"
+        },
+        {
+          "id": "window-m5b",
+          "type": "choice",
+          "phase": "mastery",
+          "prompt": "Which plan minimizes a positive per-session cost when the feasible whole counts are 5, 6, 7?",
+          "choices": [
+            {
+              "id": "five",
+              "text": "5 sessions, because it is the smallest feasible count."
+            },
+            {
+              "id": "seven",
+              "text": "7 sessions, because larger is always cheaper."
+            },
+            {
+              "id": "zero",
+              "text": "0 sessions, ignoring the minimum."
+            }
+          ],
+          "answer": "five",
+          "hint": null,
+          "explanation": "With positive per-session cost and a fixed setup, choose the smallest feasible count: 5."
+        }
+      ]
+    ]
+  },
+  "ending": "The signal is complete. Your team did more than solve for a number: you found a set of possible plans and defended a choice. Maya sketches the star, Eli saves a new sound clip, and the rover records a quiet note: “Today we learned to tell the difference between what is equal, what is possible, and what is worth choosing.” The next crew’s archive starts with your team.",
+  "reportPrompt": "Recommend a session plan for one stated objective. Write the constraints, identify the common whole-number solutions, verify your choice, and explain one strict or inclusive endpoint."
+}
