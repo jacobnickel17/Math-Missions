@@ -6,7 +6,7 @@ The two new missions are on codex/cloud-first-foundation, in draft PR #1. Nothin
 2. If npm run preview is running, click in that terminal and press Ctrl+C once.
 3. Run git status. If you have unexpected source edits, keep them and stop before pulling; the title experiment in the website form did not edit source files.
 4. Run git pull --ff-only.
-5. Run npm test (17 tests at this revision).
+5. Run npm test (23 tests at this revision).
 6. Run npm run build.
 7. Run npm run preview.
 8. Open the forwarded port 4173 from Ports, keeping it Private. Refresh the preview tab.

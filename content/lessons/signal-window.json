@@ -100,7 +100,7 @@
         "A closed circle includes the boundary (≤ or ≥). An open circle excludes it (< or >). Shade left for smaller numbers and right for larger numbers.",
         "For x ≤ 12, draw a closed circle at 12 and shade left. For x > 4, draw an open circle at 4 and shade right. The graph represents all real solutions unless a domain is stated.",
         "Check a test value in the shaded region. If you graph x > 4, 5 should satisfy the condition and 3 should not. A boundary test tells whether the circle is open or closed.",
-        "The graph tool uses a schematic: choose the boundary, endpoint, and direction. For counts, only nonnegative integer points from the solution set are usable even when the real-number graph is a ray."
+        "Build your graph on a scaled number line: click or tap to place a boundary, or type it or use the slider. Choose an open or filled circle and shade left or right. After a correct check, compare with the correct solution graph. For counts, only nonnegative integer points from the solution set are usable even when the real-number graph is a ray."
       ],
       "worked": [
         "Different example: 3t + 2 < 20. Subtract 2: 3t < 18. Divide by 3: t < 6.",

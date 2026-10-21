@@ -1,5 +1,6 @@
 import {validateCatalog,missionUrl} from './model.js';
 import {validateStory,freshStory,correct,canAdvance,gradeMastery,report} from './story-model.js';
+import {graphResponse,graphScale,graphVariable,renderNumberLine} from './number-line.js';
 
 const $=id=>document.getElementById(id);
 const add=(p,tag,text='',className='')=>{const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;p.append(el);return el;};
@@ -9,25 +10,13 @@ function save(){
   try{localStorage.setItem(key,JSON.stringify(state));storageOK=true;}catch{storageOK=false;}
   $('storage').textContent=storageOK?'Progress saved on this browser and device.':'Storage unavailable. Download your report before leaving this page.';
 }
-function renderGraph(container,response) {
-  container.replaceChildren();
-  if(!response || !['left','right'].includes(response.direction) || typeof response.closed!=='boolean' || response.boundary==='' || !Number.isFinite(Number(response.boundary)))return;
-  const ns='http://www.w3.org/2000/svg';
-  const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 500 120');svg.setAttribute('role','img');
-  const label=(response.closed?'Closed':'Open')+' circle at '+response.boundary+', shaded '+response.direction+'.';
-  svg.setAttribute('aria-label',label);
-  const shape=(tag,attrs)=>{const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));svg.append(e);};
-  shape('line',{x1:25,y1:45,x2:475,y2:45,stroke:'#a9c9c7','stroke-width':2});
-  const end=response.direction==='left'?35:465;
-  shape('line',{x1:250,y1:45,x2:end,y2:45,stroke:'#64eeb4','stroke-width':6});
-  shape('polygon',{points:response.direction==='left'?'25,45 45,35 45,55':'475,45 455,35 455,55',fill:'#64eeb4'});
-  shape('circle',{cx:250,cy:45,r:9,fill:response.closed?'#64eeb4':'#07191f',stroke:'#64eeb4','stroke-width':3});
-  const text=document.createElementNS(ns,'text');text.setAttribute('x','250');text.setAttribute('y','85');text.setAttribute('text-anchor','middle');text.setAttribute('fill','#eefaf7');text.textContent=response.boundary;svg.append(text);
-  container.append(svg);add(container,'p',label+' This schematic shows the boundary and direction, not a fixed scale.');
+function verifiedGraph(container,q) {
+  if(!['graph','inequality'].includes(q.type))return;
+  renderNumberLine(container,graphResponse(q,q.answer),{scale:graphScale(q),variable:graphVariable(q),title:'Correct solution graph'});
 }
-function controls(q,container,feedback) {
+function controls(q,container,feedback,verified) {
   let response=state.responses[q.id];
-  const changed=value=>{state.responses[q.id]=value;delete state.checks[q.id];feedback.textContent='';save();};
+  const changed=value=>{state.responses[q.id]=value;delete state.checks[q.id];feedback.textContent='';verified.replaceChildren();save();};
   if(q.type==='choice') {
     const group=add(container,'div','','choices');group.setAttribute('role','radiogroup');group.setAttribute('aria-label',q.prompt);
     for(const o of q.choices){const label=add(group,'label','','choice');const input=document.createElement('input');input.type='radio';input.name=q.id;input.value=o.id;input.checked=response===o.id;input.onchange=()=>changed(o.id);label.append(input);add(label,'span',o.text);}
@@ -42,13 +31,32 @@ function controls(q,container,feedback) {
   response=response&&typeof response==='object'?{...response}:{boundary:'',operator:'',direction:'',closed:null};
   const select=(caption,values,current,change)=>{const id=q.id+'-'+caption;const lab=add(row,'label',caption);lab.htmlFor=id;const el=add(row,'select');el.id=id;el.add(new Option('Choose…',''));for(const [value,text] of values)el.add(new Option(text,value));el.value=current??'';el.onchange=()=>change(el.value);return el;};
   const graph=add(container,'div','','graph-preview');
-  const update=()=>{changed({...response});if(q.type==='graph')renderGraph(graph,response);};
-  input.oninput=()=>{response.boundary=input.value;update();};
+  const scale=graphScale(q);
+  let slider,directionSelect,endpointSelect;
+  const paint=()=>renderNumberLine(graph,response,{scale,variable:graphVariable(q),onPlace:value=>{
+    response.boundary=String(value);input.value=String(value);if(slider)slider.value=String(value);
+    update();
+  }});
+  const update=()=>{changed({...response});if(q.type==='graph')paint();};
+  input.oninput=()=>{response.boundary=input.value;if(slider&&input.value.trim()&&Number.isFinite(Number(input.value)))slider.value=input.value;update();};
   if(q.type==='inequality')select('Relation',[['<','x < boundary'],['<=','x ≤ boundary'],['>','x > boundary'],['>=','x ≥ boundary']],response.operator,v=>{response.operator=v;update();});
   else{
-    select('Direction',[['left','Shade left (smaller values)'],['right','Shade right (larger values)']],response.direction,v=>{response.direction=v;update();});
-    select('Endpoint',[['open','Open circle (boundary excluded)'],['closed','Closed circle (boundary included)']],response.closed===true?'closed':response.closed===false?'open':'',v=>{response.closed=v==='closed'?true:v==='open'?false:null;update();});
-    renderGraph(graph,response);
+    directionSelect=select('Direction',[['left','Shade left (smaller values)'],['right','Shade right (larger values)']],response.direction,v=>{response.direction=v;update();});
+    endpointSelect=select('Endpoint',[['open','Open circle (boundary excluded)'],['closed','Closed circle (boundary included)']],response.closed===true?'closed':response.closed===false?'open':'',v=>{response.closed=v==='closed'?true:v==='open'?false:null;update();});
+    add(container,'p','Build your graph: click or tap the number line to place the boundary. You can also type it above or use the slider with arrow keys. Choose the circle and shading below. Your graph is not checked until you submit.','minor');
+    const tools=add(container,'div','','graph-tools');
+    const label=add(tools,'label','Boundary position — arrow keys move one tick');label.htmlFor=q.id+'-position';
+    slider=add(tools,'input');slider.type='range';slider.id=q.id+'-position';slider.min=scale.min;slider.max=scale.max;slider.step=scale.step;
+    slider.value=response.boundary!==''&&Number.isFinite(Number(response.boundary))?response.boundary:Math.max(scale.min,Math.min(scale.max,0));
+    slider.setAttribute('aria-label','Boundary position on number line');
+    slider.oninput=()=>{response.boundary=slider.value;input.value=slider.value;update();};
+    const actions=add(tools,'div','','graph-actions');
+    const action=(text,field,value,selectEl,selectValue)=>button(actions,text,()=>{response[field]=value;selectEl.value=selectValue;update();});
+    action('← Shade left','direction','left',directionSelect,'left');
+    action('Shade right →','direction','right',directionSelect,'right');
+    action('○ Open circle','closed',false,endpointSelect,'open');
+    action('● Filled circle','closed',true,endpointSelect,'closed');
+    paint();
   }
 }
 function question(q,parent,mastery=false) {
@@ -57,17 +65,19 @@ function question(q,parent,mastery=false) {
   add(card,'h3',q.prompt);
   const controlBox=add(card,'div');
   const feedback=add(card,'p','','feedback');feedback.setAttribute('role','status');
-  controls(q,controlBox,feedback);
+  const verified=add(card,'div','','verified-graph');
+  controls(q,controlBox,feedback,verified);
   if(!mastery) {
     button(card,'Check answer',()=>{
       const result=correct(q,state.responses[q.id]);state.attempts.push({id:q.id,correct:result,response:structuredClone(state.responses[q.id]??''),time:new Date().toISOString()});
       state.checks[q.id]=result;save();feedback.textContent=result?'Correct. '+q.explanation:'Not yet. Recheck the quantities, units, or inequality direction.';feedback.className='feedback'+(result?' good':'');
+      verified.replaceChildren();if(result)verifiedGraph(verified,q);
     });
     if(q.phase!=='unlock'){
       const hint=add(card,'details');add(hint,'summary','Show hint');add(hint,'p',q.hint);
       hint.ontoggle=()=>{if(hint.open&&!state.hints.includes(q.id)){state.hints.push(q.id);save();}};
     }
-    if(state.checks[q.id]&&correct(q,state.responses[q.id]))feedback.textContent='Correct. '+q.explanation;
+    if(state.checks[q.id]&&correct(q,state.responses[q.id])){feedback.textContent='Correct. '+q.explanation;verifiedGraph(verified,q);}
   }
 }
 function stageScreen(index) {
@@ -99,7 +109,7 @@ function masteryScreen() {
   const current=state.masteryAttempts.at(-1);
   if(current&&current.form===state.form){
     add(root,'p','Score: '+current.score+'/'+current.total,'result');
-    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);}
+    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
     if(current.score>=lesson.mastery.pass){
       add(root,'p',lesson.ending,'story-text');
       const label=add(root,'label',lesson.reportPrompt);label.htmlFor='final-reflection';

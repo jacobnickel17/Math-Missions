@@ -24,6 +24,8 @@ Allow two 30–35 minute sessions per mission if one 60-minute block is too long
 - Discuss model assumptions and explanations before treating completion as mastery.
 
 ## Materials and vocabulary
+For graph interactions and the new correct-answer graphs, see [graph review](GRAPH-REVIEW.md). Students can place boundaries on scaled number lines, choose endpoint/shading with buttons or menus, or use a keyboard slider. Verified graphs appear after a correct formative check and in mastery review after submission.
+
 Scratch paper and a way to submit a downloaded text report. Calculators may support decimal arithmetic; ask students to record the model and reasoning.
 - Ledger: fixed cost, variable rate, total cost, revenue, profit/loss, crossover, assumption, whole-number threshold.
 - Window: inequality, boundary, solution set, at most/at least, strict/inclusive, open/closed endpoint, domain, constraint, feasible, objective.
