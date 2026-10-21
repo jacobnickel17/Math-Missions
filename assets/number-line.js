@@ -1,3 +1,4 @@
+import {solutionMeaning} from './story-model.js';
 export function graphResponse(q,response) {
   if(q.type==='graph')return response;
   if(q.type==='inequality'&&response&&['<','<=','>','>='].includes(response.operator)){
@@ -37,7 +38,7 @@ export function numberLineGeometry(response,scale) {
 }
 export function graphDescription(response,variable='x') {
   const relation=response.direction==='left'?(response.closed?'≤':'<'):(response.closed?'≥':'>');
-  return variable+' '+relation+' '+Number(response.boundary)+'. '+(response.closed?'Filled':'Open')+' circle at '+Number(response.boundary)+'; shade '+response.direction+' toward '+(response.direction==='left'?'smaller':'larger')+' values.';
+  return variable+' '+relation+' '+Number(response.boundary)+': '+solutionMeaning(response.direction==='left'?(response.closed?'<=':'<'):(response.closed?'>=':'>'),Number(response.boundary))+' '+(response.closed?'Filled':'Open')+' circle at '+Number(response.boundary)+'; shade '+response.direction+' toward '+(response.direction==='left'?'smaller':'larger')+' values.';
 }
 export function renderNumberLine(container,response,{scale=graphScale(),variable='x',title='Your graph — not checked',onPlace}={}) {
   container.replaceChildren();
@@ -46,7 +47,7 @@ export function renderNumberLine(container,response,{scale=graphScale(),variable
   const wrap=doc.createElement('div');wrap.className='number-line-scroll';
   const svg=doc.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 720 160');svg.setAttribute('role','img');
   const geometry=numberLineGeometry(response,scale);
-  svg.setAttribute('aria-label',geometry.endpoint?graphDescription(response,variable):geometry.candidate?'Boundary placed at '+geometry.candidate.value+'. Choose endpoint type and shading direction.':'Number line from '+scale.min+' to '+scale.max+'. No complete graph has been entered.');
+  svg.setAttribute('aria-label',geometry.endpoint?graphDescription(response,variable):geometry.candidate?'Circle position: '+geometry.candidate.value+'. Decide whether this number is a solution, then shade toward the other solutions.':'Number line from '+scale.min+' to '+scale.max+'. No complete graph has been entered.');
   const shape=(tag,attrs,text)=>{const el=doc.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))el.setAttribute(k,String(v));if(text!==undefined)el.textContent=String(text);svg.append(el);return el;};
   shape('line',{x1:28,y1:62,x2:692,y2:62,stroke:'#a9c9c7','stroke-width':2});
   shape('polygon',{points:'20,62 31,56 31,68',fill:'#a9c9c7'});
@@ -71,7 +72,7 @@ export function renderNumberLine(container,response,{scale=graphScale(),variable
   if(onPlace){svg.classList.add('place-boundary');svg.onclick=e=>onPlace(boundaryAt(e.clientX,svg.getBoundingClientRect(),scale));}
   wrap.append(svg);container.append(wrap);
   const caption=doc.createElement('p');caption.className='minor';
-  caption.textContent=endpoint?graphDescription(response,variable)+(endpoint.visible?'':' Boundary lies outside the displayed interval; use the boundary field to enter any number.'):geometry.candidate?'Boundary placed at '+geometry.candidate.value+'. Choose the circle type and shading direction to complete your graph.':'Choose a boundary, direction, and endpoint to complete your graph.';
+  caption.textContent=endpoint?graphDescription(response,variable)+(endpoint.visible?'':' The number at the circle is outside the displayed interval; use the number field to change it.'):geometry.candidate?'Circle position: '+geometry.candidate.value+'. Decide whether this number is a solution, then choose the circle type and shading direction.':'State which real numbers are solutions, then choose the number at the circle, circle type, and shading direction.';
   container.append(caption);
   const note=doc.createElement('p');note.className='minor';note.textContent='Equal tick spacing = '+scale.step+' unit'+(scale.step===1?'':'s')+'. Arrows continue beyond the displayed values. This shows the real-number solution set.';container.append(note);
 }

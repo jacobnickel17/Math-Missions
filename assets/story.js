@@ -1,5 +1,5 @@
 import {validateCatalog,missionUrl} from './model.js';
-import {validateStory,freshStory,correct,canAdvance,gradeMastery,report} from './story-model.js';
+import {validateStory,freshStory,correct,canAdvance,gradeMastery,report,solutionMeaning} from './story-model.js';
 import {graphResponse,graphScale,graphVariable,renderNumberLine} from './number-line.js';
 
 const $=id=>document.getElementById(id);
@@ -25,30 +25,40 @@ function controls(q,container,feedback,verified) {
   const row=add(container,'div','','answer-row');
   const input=document.createElement('input');input.id=q.id;input.type='text';input.inputMode='decimal';
   input.placeholder='Number only, without units';
-  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):'Boundary');label.htmlFor=q.id;
+  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):q.type==='graph'?'Number at the circle':'Number in the solution');label.htmlFor=q.id;
   input.value=q.type==='number'?(response??''):(response?.boundary??'');row.append(input);
   if(q.type==='number'){input.oninput=()=>changed(input.value);return;}
   response=response&&typeof response==='object'?{...response}:{boundary:'',operator:'',direction:'',closed:null};
-  const select=(caption,values,current,change)=>{const id=q.id+'-'+caption;const lab=add(row,'label',caption);lab.htmlFor=id;const el=add(row,'select');el.id=id;el.add(new Option('Choose…',''));for(const [value,text] of values)el.add(new Option(text,value));el.value=current??'';el.onchange=()=>change(el.value);return el;};
+  const select=(caption,values,current,change)=>{const id=q.id+'-'+caption.replaceAll(' ','-');const lab=add(row,'label',caption);lab.htmlFor=id;const el=add(row,'select');el.id=id;el.add(new Option('Choose…',''));for(const [value,text] of values)el.add(new Option(text,value));el.value=current??'';el.onchange=()=>change(el.value);return el;};
   const graph=add(container,'div','','graph-preview');
   const scale=graphScale(q);
-  let slider,directionSelect,endpointSelect;
+  let slider,directionSelect,endpointSelect,meaningSelect;
+  const refreshMeaning=()=>{if(meaningSelect){const value=input.value.trim()||'the number at the circle';for(const option of Array.from(meaningSelect.children))if(option.value)option.textContent=solutionMeaning(option.value,value);}};
   const paint=()=>renderNumberLine(graph,response,{scale,variable:graphVariable(q),onPlace:value=>{
     response.boundary=String(value);input.value=String(value);if(slider)slider.value=String(value);
     update();
   }});
-  const update=()=>{changed({...response});if(q.type==='graph')paint();};
+  const update=()=>{refreshMeaning();changed({...response});if(q.type==='graph')paint();};
   input.oninput=()=>{response.boundary=input.value;if(slider&&input.value.trim()&&Number.isFinite(Number(input.value)))slider.value=input.value;update();};
-  if(q.type==='inequality')select('Relation',[['<','x < boundary'],['<=','x ≤ boundary'],['>','x > boundary'],['>=','x ≥ boundary']],response.operator,v=>{response.operator=v;update();});
+  if(q.type==='inequality')select('Solution statement',[['<','x < the entered number'],['<=','x ≤ the entered number'],['>','x > the entered number'],['>=','x ≥ the entered number']],response.operator,v=>{response.operator=v;update();});
   else{
+    if(q.requireMeaning){
+      const meanings=add(container,'div','','solution-meaning');
+      container.insertBefore(meanings,row);
+      add(meanings,'p','First explain what the inequality represents. Then show those solutions on the number line.');
+      const lab=add(meanings,'label','Which real numbers are solutions?');lab.htmlFor=q.id+'-Meaning';
+      meaningSelect=add(meanings,'select');meaningSelect.id=q.id+'-Meaning';meaningSelect.add(new Option('Choose the solution set…',''));
+      for(const op of ['<','<=','>','>='])meaningSelect.add(new Option(solutionMeaning(op,input.value.trim()||'the number at the circle'),op));
+      meaningSelect.value=response.meaning||'';meaningSelect.onchange=()=>{response.meaning=meaningSelect.value;update();};
+    }
     directionSelect=select('Direction',[['left','Shade left (smaller values)'],['right','Shade right (larger values)']],response.direction,v=>{response.direction=v;update();});
-    endpointSelect=select('Endpoint',[['open','Open circle (boundary excluded)'],['closed','Closed circle (boundary included)']],response.closed===true?'closed':response.closed===false?'open':'',v=>{response.closed=v==='closed'?true:v==='open'?false:null;update();});
-    add(container,'p','Build your graph: click or tap the number line to place the boundary. You can also type it above or use the slider with arrow keys. Choose the circle and shading below. Your graph is not checked until you submit.','minor');
+    endpointSelect=select('Circle type',[['open','Open circle — this number is NOT a solution'],['closed','Filled circle — this number IS a solution']],response.closed===true?'closed':response.closed===false?'open':'',v=>{response.closed=v==='closed'?true:v==='open'?false:null;update();});
+    add(container,'p','Graph the solution set: place the circle at the comparison number, use an open circle if that number is excluded or a filled circle if it is included, and shade toward the other solutions. Click or tap, type the number, or use the slider. Your graph is not checked until you submit.','minor');
     const tools=add(container,'div','','graph-tools');
-    const label=add(tools,'label','Boundary position — arrow keys move one tick');label.htmlFor=q.id+'-position';
+    const label=add(tools,'label','Move the circle — arrow keys move one tick');label.htmlFor=q.id+'-position';
     slider=add(tools,'input');slider.type='range';slider.id=q.id+'-position';slider.min=scale.min;slider.max=scale.max;slider.step=scale.step;
     slider.value=response.boundary!==''&&Number.isFinite(Number(response.boundary))?response.boundary:Math.max(scale.min,Math.min(scale.max,0));
-    slider.setAttribute('aria-label','Boundary position on number line');
+    slider.setAttribute('aria-label','Number at the circle on the number line');
     slider.oninput=()=>{response.boundary=slider.value;input.value=slider.value;update();};
     const actions=add(tools,'div','','graph-actions');
     const action=(text,field,value,selectEl,selectValue)=>button(actions,text,()=>{response[field]=value;selectEl.value=selectValue;update();});
@@ -70,7 +80,7 @@ function question(q,parent,mastery=false) {
   if(!mastery) {
     button(card,'Check answer',()=>{
       const result=correct(q,state.responses[q.id]);state.attempts.push({id:q.id,correct:result,response:structuredClone(state.responses[q.id]??''),time:new Date().toISOString()});
-      state.checks[q.id]=result;save();feedback.textContent=result?'Correct. '+q.explanation:'Not yet. Recheck the quantities, units, or inequality direction.';feedback.className='feedback'+(result?' good':'');
+      state.checks[q.id]=result;save();feedback.textContent=result?'Correct. '+q.explanation:'Not yet. Check which numbers are solutions, whether the number at the circle is included, and which way the shading should go.';feedback.className='feedback'+(result?' good':'');
       verified.replaceChildren();if(result)verifiedGraph(verified,q);
     });
     if(q.phase!=='unlock'){

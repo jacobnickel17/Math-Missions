@@ -24,7 +24,7 @@ Allow two 30–35 minute sessions per mission if one 60-minute block is too long
 - Discuss model assumptions and explanations before treating completion as mastery.
 
 ## Materials and vocabulary
-For graph interactions and the new correct-answer graphs, see [graph review](GRAPH-REVIEW.md). Students can place boundaries on scaled number lines, choose endpoint/shading with buttons or menus, or use a keyboard slider. Verified graphs appear after a correct formative check and in mastery review after submission.
+Graph questions first ask students which real numbers are solutions, then require the number at the circle, shading direction, and circle type. Wrong or missing solution-set interpretations do not pass even if the drawing is right. For graph interactions and the new correct-answer graphs, see [graph review](GRAPH-REVIEW.md). Students can place boundaries on scaled number lines, choose endpoint/shading with buttons or menus, or use a keyboard slider. Verified graphs appear after a correct formative check and in mastery review after submission.
 
 Scratch paper and a way to submit a downloaded text report. Calculators may support decimal arithmetic; ask students to record the model and reasoning.
 - Ledger: fixed cost, variable rate, total cost, revenue, profit/loss, crossover, assumption, whole-number threshold.
@@ -96,20 +96,20 @@ Download mission report works during or after a mission. It includes responses, 
 
 ### The Signal Window
 
-#### The boundary is not the answer
+#### More than one solution
 - guided: **18 + 6x ≤ 90** — 18 + 6x ≤ 90 allows cheaper plans as well as the plan that spends exactly $90.
-- practice: **x <= 12** — 6x ≤ 72 gives x ≤ 12. Twelve sessions are included.
+- practice: **x <= 12** — All real numbers less than or equal to 12 are solutions. 6x ≤ 72 gives x ≤ 12. Twelve sessions are included.
 - unlock: **v > 8, so the smallest whole-number visitor count is 9.** — “More than” excludes 8. Visitors are whole people, so 9 is the smallest possible count.
 
 #### Draw the signal window
-- guided: **Closed circle at 12; shade left** — Closed circle at 12; shade left. The boundary 12 is a solution.
-- practice: **Closed circle at 5; shade right** — Closed circle at 5; shade right. Five minutes is included.
-- unlock: **Open circle at 9; shade left** — Open circle at 9; shade left. Exactly 9 minutes is excluded.
+- guided: **Closed circle at 12; shade left** — All real numbers less than or equal to 12 are solutions. Filled circle at 12; shade left. 12 is a solution.
+- practice: **Closed circle at 5; shade right** — All real numbers greater than or equal to 5 are solutions. Filled circle at 5; shade right. 5 is a solution.
+- unlock: **Open circle at 9; shade left** — All real numbers less than 9 are solutions. Open circle at 9; shade left. 9 is not a solution.
 
 #### The sign-flip trap
-- guided: **x <= 9** — −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain.
+- guided: **x <= 9** — All real numbers less than or equal to 9 are solutions. −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain.
 - practice: **Dividing by −4 must reverse ≥ to ≤; x = 10 also fails the original limit.** — Only multiplication/division by a negative reverses order. At 10 sessions, 50 − 40 = 10, below the required 14.
-- unlock: **x < 9** — −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work.
+- unlock: **x < 9** — All real numbers less than 9 are solutions. −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work.
 
 #### One plan, every constraint
 - guided: **6, 7, 8, 9** — Every feasible count is at least 6 and at most 9. The budget does not remove any of those four.
@@ -117,15 +117,15 @@ Download mission report works during or after a mission. It includes responses, 
 - unlock: **6 sessions: $54 cost and 26 energy points left; all limits satisfied.** — 6 is the smallest feasible count and each additional session costs $6. Zero misses the minimum; 9 costs $72.
 
 #### Mastery form 1
-1. **x <= 10** — 5x ≤ 50 gives x ≤ 10; equality is allowed.
-2. **Open circle at 4; shade right** — Open circle at 4; shade right. Four is excluded.
-3. **x <= 6** — −6x ≥ −36 becomes x ≤ 6 after dividing by −6.
+1. **x <= 10** — All real numbers less than or equal to 10 are solutions. 5x ≤ 50 gives x ≤ 10; equality is allowed.
+2. **Open circle at 4; shade right** — All real numbers greater than 4 are solutions. Open circle at 4; shade right. 4 is not a solution.
+3. **x <= 6** — All real numbers less than or equal to 6 are solutions. −6x ≥ −36 becomes x ≤ 6 after dividing by −6.
 4. **6** — The common whole-number choices are 4, 5, 6. Maximum: 6.
 5. **Exclude 7; the valid list is 3, 4, 5, 6.** — The ≤ includes 3, but < excludes 7.
 
 #### Mastery form 2
-1. **x <= 12** — 4x ≤ 48 gives x ≤ 12. The boundary is included.
-2. **Closed circle at 7; shade right** — Closed circle at 7; shade right. Seven is included.
-3. **x < 8** — −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.
+1. **x <= 12** — All real numbers less than or equal to 12 are solutions. 4x ≤ 48 gives x ≤ 12. Twelve is included.
+2. **Closed circle at 7; shade right** — All real numbers greater than or equal to 7 are solutions. Filled circle at 7; shade right. 7 is a solution.
+3. **x < 8** — All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.
 4. **7** — Feasible whole counts are 5, 6, 7. Eight fails the strict reserve limit.
 5. **5 sessions, because it is the smallest feasible count.** — With positive per-session cost and a fixed setup, choose the smallest feasible count: 5.

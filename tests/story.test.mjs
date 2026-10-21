@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {validateStory,solveInequality,correct,answered,freshStory,canAdvance,gradeMastery,report,allQuestions,calculate} from '../assets/story-model.js';
 import {validateCatalog,missionUrl,publishedMissions} from '../assets/model.js';
+import {solutionMeaning} from '../assets/story-model.js';
 const load=async id=>JSON.parse(await readFile(new URL('../content/lessons/'+id+'.json',import.meta.url),'utf8'));
 const ledger=await load('blackout-ledger'), window=await load('signal-window');
 const catalog=JSON.parse(await readFile(new URL('../content/catalog.json',import.meta.url),'utf8'));
@@ -82,4 +83,13 @@ test('real-world recommendation boundaries check neighboring whole counts and al
  const feasible=Array.from({length:20},(_,x)=>x).filter(x=>x>=6&&18+6*x<=90&&50-4*x>=14);
  assert.deepEqual(feasible,[6,7,8,9]);assert.equal(18+6*6,54);assert.equal(50-4*6,26);
  assert.equal(5*28-(36+1.5*33),54.5);
+});
+test('graph answers require solution-set meaning as well as a correct drawing',()=>{
+ const q=window.stages[1].questions[1],r=response(q);
+ assert.equal(correct(q,r),true);
+ assert.equal(correct(q,{...r,meaning:'>'}),false);
+ const missing={...r};delete missing.meaning;assert.equal(answered(q,missing),false);assert.equal(correct(q,missing),false);
+ assert.equal(solutionMeaning('>',5),'All real numbers greater than 5.');
+ assert.equal(solutionMeaning('>=',5),'All real numbers greater than or equal to 5.');
+ const bad=structuredClone(window);bad.stages[1].questions[1].answer.meaning='>';assert.ok(validateStory(bad).some(e=>e.includes('meaning')));
 });

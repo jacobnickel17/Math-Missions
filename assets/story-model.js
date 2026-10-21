@@ -1,5 +1,9 @@
 import {idPattern} from './model.js';
 
+export function solutionMeaning(operator,value) {
+  const words={'<':'less than','<=':'less than or equal to','>':'greater than','>=':'greater than or equal to'};
+  return 'All real numbers '+words[operator]+' '+value+'.';
+}
 const operators = ['<', '<=', '>', '>='];
 const flip = {'<':'>', '<=':'>=', '>':'<', '>=':'<='};
 export function calculate(node) {
@@ -50,6 +54,7 @@ export function validateStory(lesson) {
         if (!Number.isFinite(q.answer?.boundary)) throw Error('A finite answer boundary is required');
         if (q.type === 'graph' && (!['left','right'].includes(q.answer.direction) || typeof q.answer.closed !== 'boolean')) throw Error('Graph endpoint and direction required');
         const solution=solveInequality(q.math);
+        if(q.requireMeaning && q.answer.meaning!==solution.operator)errors.push(q.id+': solution-set meaning incorrect');
         if (q.type==='inequality' && (q.answer.operator!==solution.operator || Math.abs(q.answer.boundary-solution.boundary)>1e-8)) errors.push(q.id+': inequality solution incorrect');
         if (q.type==='graph' && (q.answer.direction!==(solution.operator.startsWith('<')?'left':'right') || q.answer.closed!==solution.operator.includes('=') || Math.abs(q.answer.boundary-solution.boundary)>1e-8)) errors.push(q.id+': graph does not match inequality');
       }
@@ -64,12 +69,12 @@ export function correct(q, response) {
   if (q.type === 'choice') return typeof response === 'string' && response===q.answer;
   if (!response || !numeric(response.boundary) || Math.abs(Number(response.boundary)-q.answer.boundary)>1e-8) return false;
   if (q.type === 'inequality') return response.operator===q.answer.operator;
-  return response.direction===q.answer.direction && response.closed===q.answer.closed;
+  return response.direction===q.answer.direction && response.closed===q.answer.closed && (!q.requireMeaning || response.meaning===q.answer.meaning);
 }
 export function answered(q, response) {
   if(q.type==='choice')return q.choices.some(o=>o.id===response);
   if(q.type==='number')return numeric(response);
-  return !!response && numeric(response.boundary) && (q.type==='inequality'?operators.includes(response.operator):['left','right'].includes(response.direction)&&typeof response.closed==='boolean');
+  return !!response && numeric(response.boundary) && (q.type==='inequality'?operators.includes(response.operator):['left','right'].includes(response.direction)&&typeof response.closed==='boolean'&&(!q.requireMeaning||operators.includes(response.meaning)));
 }
 export function freshStory(lesson) {
   return {revision:lesson.revision,stage:0,unlocked:0,responses:{},checks:{},notes:{},attempts:[],hints:[],masteryAttempts:[],form:0,reflection:''};

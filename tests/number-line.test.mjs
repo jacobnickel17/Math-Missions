@@ -11,6 +11,7 @@ class Element {
   get textContent(){return this._text+this.children.map(e=>e.textContent).join(' ');}
   append(...nodes){for(const n of nodes){n.parent=this;this.children.push(n);}}
   add(node){this.append(node);}
+  insertBefore(node,reference){this.children=this.children.filter(e=>e!==node);node.parent=this;this.children.splice(this.children.indexOf(reference),0,node);}
   replaceChildren(...nodes){this._text='';this.children=[];this.append(...nodes);}
   setAttribute(k,v){this.attributes[k]=String(v);if(k==='id')this.id=String(v);}
   getAttribute(k){return this.attributes[k];}
@@ -80,13 +81,17 @@ test('graph builder click, slider, endpoint buttons and verified-answer lifecycl
  const document=await app(saved,'formative'),question=document.body.find(e=>e.className==='question');
  const byText=text=>question.find(e=>e.tagName==='button'&&e.textContent===text);
  const input=document.getElementById('window-graph-cap'),verified=question.querySelector('.verified-graph');
+ assert.match(question.querySelector('.solution-meaning').textContent,/Which real numbers are solutions/);
  assert.equal(verified.children.length,0);
  const svg=question.querySelector('svg');svg.onclick({clientX:position(12,graphScale())});
  assert.equal(input.value,'12');
- assert.match(question.querySelector('svg').attributes['aria-label'],/Boundary placed at 12/);
+ assert.match(question.querySelector('svg').attributes['aria-label'],/Circle position: 12/);
+ const meaning=document.getElementById('window-graph-cap-Meaning');meaning.value='<=';meaning.onchange();
  byText('← Shade left').onclick();byText('● Filled circle').onclick();
  assert.equal(document.getElementById('window-graph-cap-Direction').value,'left');
  byText('Check answer').onclick();assert.match(verified.textContent,/Correct solution graph/);assert.equal(verified.querySelector('circle').attributes.fill,'#64eeb4');
+ meaning.value='>';meaning.onchange();byText('Check answer').onclick();assert.equal(verified.children.length,0);
+ meaning.value='<=';meaning.onchange();byText('Check answer').onclick();assert.ok(verified.querySelector('svg'));
  const slider=document.getElementById('window-graph-cap-position');slider.value='11';slider.oninput();
  assert.equal(input.value,'11');assert.equal(verified.children.length,0);
  byText('Check answer').onclick();assert.equal(verified.children.length,0);

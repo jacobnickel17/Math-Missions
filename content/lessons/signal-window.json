@@ -3,24 +3,24 @@
   "revision": 1,
   "id": "signal-window",
   "objective": "Translate real-world limits into inequalities, solve and graph solution sets, reverse direction when dividing by a negative, and combine constraints with whole-number domains.",
-  "instructions": "Continue the missing-broadcast story through four chapters. Use x for the quantity named in each problem. Inequality answers need a boundary and relation; number-line answers need a boundary, endpoint type, and shading direction. Finish mastery and export your report.",
+  "instructions": "Continue the missing-broadcast story through four chapters. Explain which real numbers make each inequality true. For graph questions, state the solution set, choose the number at the circle, decide whether that number is included, and shade toward the other solutions. Finish mastery and export your report.",
   "opening": "The new receiver plays a seven-year-old student voice: “We were here, even when nobody was filming. This is our school, in our words.” Then the signal stops. Maya finds the rest of the file inside the Night Market projection schedule. Your rover can replay it at a student booth—but the schedule must respect a spending cap, a minimum audience goal, and a simulated energy reserve. These are classroom planning models, not instructions for real electrical equipment.",
   "stages": [
     {
       "id": "translate",
-      "title": "The boundary is not the answer",
-      "story": "Eli has exactly $90 in the booth budget. An approved rental costs $18 setup plus $6 per demo session. The ledger mission taught you how to find a boundary. This mission asks a bigger question: which session counts work?",
+      "title": "More than one solution",
+      "story": "Eli has exactly $90 in the booth budget. An approved rental costs $18 setup plus $6 per demo session. The ledger mission taught you how to find when quantities are equal. This mission asks a bigger question: which session counts work?",
       "teach": [
-        "An equation describes equal quantities. An inequality describes a comparison and often has many solutions. “At most” or “no more than” includes the boundary: ≤. “At least” includes the boundary: ≥.",
+        "An equation describes equal quantities. An inequality describes which values make a comparison true. Its solution set is ALL of those values—not just one number. “At most” or “no more than” means ≤, and “at least” means ≥; both allow equality.",
         "“Fewer than” means < and “more than” means >. These strict comparisons exclude equality. Translate the entire quantity being compared, not only its per-unit part.",
-        "Let x be demo sessions. The spending limit is 18 + 6x ≤ 90. The equality gives the boundary x = 12, but 0 through 12 whole sessions are affordable.",
+        "Let x be demo sessions. The spending limit is 18 + 6x ≤ 90. Solving gives x ≤ 12: all real numbers less than or equal to 12 solve the inequality. In this session-count context, only the whole numbers 0 through 12 are usable.",
         "Always state the domain. Negative demo counts make no sense, and half a scheduled session is not a session in this model. First solve the real-number inequality; then apply x = 0, 1, 2, … for planning."
       ],
       "worked": [
         "Different example: a club has $44. Tickets cost $4 each plus an $8 order fee. Let t be tickets.",
         "“Spend at most $44” becomes 8 + 4t ≤ 44.",
         "Subtract 8 from both sides: 4t ≤ 36. Divide by positive 4: t ≤ 9.",
-        "The real-number solution includes values like 8.5, but the usable whole-ticket counts are 0 through 9. The boundary 9 is included."
+        "The solution t ≤ 9 means all real numbers less than or equal to 9. Values like 8.5 solve the inequality too, but actual ticket counts must be whole numbers, so the usable counts are 0 through 9."
       ],
       "questions": [
         {
@@ -50,7 +50,7 @@
           "id": "window-cap",
           "type": "inequality",
           "phase": "practice",
-          "prompt": "Solve 18 + 6x ≤ 90 over the real numbers. Enter its boundary and relation.",
+          "prompt": "Solve 18 + 6x ≤ 90 over the real numbers. Write a statement describing all its solutions.",
           "math": {
             "a": 6,
             "b": 18,
@@ -63,7 +63,7 @@
             "boundary": 12
           },
           "hint": "Subtract 18, then divide by positive 6.",
-          "explanation": "6x ≤ 72 gives x ≤ 12. Twelve sessions are included."
+          "explanation": "All real numbers less than or equal to 12 are solutions. 6x ≤ 72 gives x ≤ 12. Twelve sessions are included."
         },
         {
           "id": "window-language",
@@ -97,10 +97,11 @@
       "title": "Draw the signal window",
       "story": "Maya turns the limits into a timeline so the whole team can see them. A note says the receiver needs at least 5 minutes to load the full clip. Another says the intro must last less than 9 minutes. Your number line needs to show exactly what is allowed.",
       "teach": [
-        "A closed circle includes the boundary (≤ or ≥). An open circle excludes it (< or >). Shade left for smaller numbers and right for larger numbers.",
-        "For x ≤ 12, draw a closed circle at 12 and shade left. For x > 4, draw an open circle at 4 and shade right. The graph represents all real solutions unless a domain is stated.",
-        "Check a test value in the shaded region. If you graph x > 4, 5 should satisfy the condition and 3 should not. A boundary test tells whether the circle is open or closed.",
-        "Build your graph on a scaled number line: click or tap to place a boundary, or type it or use the slider. Choose an open or filled circle and shade left or right. After a correct check, compare with the correct solution graph. For counts, only nonnegative integer points from the solution set are usable even when the real-number graph is a ray."
+        "Start with meaning: t > 5 means ALL real numbers greater than 5 are solutions. Numbers such as 5.1, 5.5, and 8 work; 5 does not. t ≥ 5 also includes 5 itself.",
+        "Make the graph match that meaning. Place a circle at the comparison number. Use an open circle when that number is NOT a solution (< or >), or a filled circle when it IS a solution (≤ or ≥). Shade left for smaller solutions or right for larger solutions.",
+        "For x ≤ 12, the solution set is all real numbers less than or equal to 12: filled circle at 12, shaded left. For x > 4, all real numbers greater than 4 are solutions: open circle at 4, shaded right.",
+        "Check the meaning by substitution. For t > 5, 5.5 makes a true statement and 4 does not. Testing 5 tells you to leave the circle open. The shaded ray includes every real value in the chosen direction, including fractions and decimals.",
+        "State the solution set first, then build it on the scaled number line. Click or tap to place the circle, type its number, or use the slider. After a correct check, compare with the correct solution graph. When a context counts whole objects, restrict the real-number solution set to usable nonnegative integers."
       ],
       "worked": [
         "Different example: 3t + 2 < 20. Subtract 2: 3t < 18. Divide by 3: t < 6.",
@@ -124,10 +125,12 @@
           "answer": {
             "boundary": 12,
             "direction": "left",
-            "closed": true
+            "closed": true,
+            "meaning": "<="
           },
-          "hint": "The boundary is included, and solutions are smaller.",
-          "explanation": "Closed circle at 12; shade left. The boundary 12 is a solution."
+          "hint": "Think about which numbers make x ≤ 12 true. Does 12 itself work? Are the other solutions smaller or larger?",
+          "explanation": "All real numbers less than or equal to 12 are solutions. Filled circle at 12; shade left. 12 is a solution.",
+          "requireMeaning": true
         },
         {
           "id": "window-graph-min",
@@ -144,10 +147,12 @@
           "answer": {
             "boundary": 5,
             "direction": "right",
-            "closed": true
+            "closed": true,
+            "meaning": ">="
           },
-          "hint": "“At least” includes 5. Longer times lie to the right.",
-          "explanation": "Closed circle at 5; shade right. Five minutes is included."
+          "hint": "All real numbers greater than or equal to 5 work, including 5 itself. Show that set on the number line.",
+          "explanation": "All real numbers greater than or equal to 5 are solutions. Filled circle at 5; shade right. 5 is a solution.",
+          "requireMeaning": true
         },
         {
           "id": "window-graph-strict",
@@ -164,13 +169,15 @@
           "answer": {
             "boundary": 9,
             "direction": "left",
-            "closed": false
+            "closed": false,
+            "meaning": "<"
           },
           "hint": null,
-          "explanation": "Open circle at 9; shade left. Exactly 9 minutes is excluded."
+          "explanation": "All real numbers less than 9 are solutions. Open circle at 9; shade left. 9 is not a solution.",
+          "requireMeaning": true
         }
       ],
-      "reflection": "Explain how your graph communicates both whether the boundary works and which other values are allowed. Include a test value.",
+      "reflection": "Explain which real numbers solve one of these inequalities. Use a fractional or decimal example, say whether the number at the circle is a solution, and explain the shading direction.",
       "reveal": "A second clip shows a student saying: “I thought nobody would remember my drawing.” The rover projects the same tiny star logo Maya found on the receiver receipt. The anonymous broadcast was a collaboration across clubs."
     },
     {
@@ -181,12 +188,12 @@
         "Add or subtract the same quantity on both sides without changing the inequality direction. Multiply or divide by a POSITIVE number without changing it.",
         "When you multiply or divide by a NEGATIVE number, REVERSE the direction. Example: 2 < 5, but after multiplying by −1, −2 > −5. Negatives reverse order on the number line.",
         "50 − 4x ≥ 14 becomes −4x ≥ −36. Dividing both sides by −4 gives x ≤ 9. More sessions consume more energy, so a maximum makes sense.",
-        "Substitute a boundary and values on each side. At x = 9, 14 points remain; at x = 10, only 10 remain, so 10 fails. This is a simplified simulation, not a battery safety calculation."
+        "Test the number at the circle and other values on each side. At x = 9, 14 points remain; at x = 10, only 10 remain, so 10 fails. This is a simplified simulation, not a battery safety calculation."
       ],
       "worked": [
         "Different example: 40 − 3r > 10. Subtract 40: −3r > −30.",
         "Divide by NEGATIVE 3: r < 10. Reverse > to <.",
-        "At r = 9, 13 > 10 is true. At r = 10, 10 > 10 is false, so the boundary is excluded.",
+        "At r = 9, 13 > 10 is true. At r = 10, 10 > 10 is false, so 10 is not a solution.",
         "With nonnegative whole rounds, r can be 0 through 9. “More than 10 points left” matters: exactly 10 is not enough."
       ],
       "questions": [
@@ -207,7 +214,7 @@
             "boundary": 9
           },
           "hint": "After subtracting 50, divide by −4 and reverse the relation.",
-          "explanation": "−4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain."
+          "explanation": "All real numbers less than or equal to 9 are solutions. −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain."
         },
         {
           "id": "window-error",
@@ -249,7 +256,7 @@
             "boundary": 9
           },
           "hint": null,
-          "explanation": "−5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work."
+          "explanation": "All real numbers less than 9 are solutions. −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work."
         }
       ],
       "reflection": "Explain the sign reversal with numbers on a number line, then use substitution to reject one incorrect session count.",
@@ -355,7 +362,7 @@
             "boundary": 10
           },
           "hint": null,
-          "explanation": "5x ≤ 50 gives x ≤ 10; equality is allowed."
+          "explanation": "All real numbers less than or equal to 10 are solutions. 5x ≤ 50 gives x ≤ 10; equality is allowed."
         },
         {
           "id": "window-m2a",
@@ -372,10 +379,12 @@
           "answer": {
             "boundary": 4,
             "direction": "right",
-            "closed": false
+            "closed": false,
+            "meaning": ">"
           },
           "hint": null,
-          "explanation": "Open circle at 4; shade right. Four is excluded."
+          "explanation": "All real numbers greater than 4 are solutions. Open circle at 4; shade right. 4 is not a solution.",
+          "requireMeaning": true
         },
         {
           "id": "window-m3a",
@@ -394,7 +403,7 @@
             "boundary": 6
           },
           "hint": null,
-          "explanation": "−6x ≥ −36 becomes x ≤ 6 after dividing by −6."
+          "explanation": "All real numbers less than or equal to 6 are solutions. −6x ≥ −36 becomes x ≤ 6 after dividing by −6."
         },
         {
           "id": "window-m4a",
@@ -423,7 +432,7 @@
             },
             {
               "id": "equal",
-              "text": "Keep only 7, because it is the boundary."
+              "text": "Keep only 7, because it is the number shown after the inequality sign."
             }
           ],
           "answer": "exclude",
@@ -449,7 +458,7 @@
             "boundary": 12
           },
           "hint": null,
-          "explanation": "4x ≤ 48 gives x ≤ 12. The boundary is included."
+          "explanation": "All real numbers less than or equal to 12 are solutions. 4x ≤ 48 gives x ≤ 12. Twelve is included."
         },
         {
           "id": "window-m2b",
@@ -466,10 +475,12 @@
           "answer": {
             "boundary": 7,
             "direction": "right",
-            "closed": true
+            "closed": true,
+            "meaning": ">="
           },
           "hint": null,
-          "explanation": "Closed circle at 7; shade right. Seven is included."
+          "explanation": "All real numbers greater than or equal to 7 are solutions. Filled circle at 7; shade right. 7 is a solution.",
+          "requireMeaning": true
         },
         {
           "id": "window-m3b",
@@ -488,7 +499,7 @@
             "boundary": 8
           },
           "hint": null,
-          "explanation": "−5x > −40 gives x < 8 after dividing by −5. Eight is excluded."
+          "explanation": "All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded."
         },
         {
           "id": "window-m4b",
