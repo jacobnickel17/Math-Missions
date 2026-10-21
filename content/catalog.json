@@ -50,7 +50,7 @@
         "Whole-number thresholds"
       ],
       "minutes": 60,
-      "status": "draft",
+      "status": "published",
       "arcId": "signal-zero",
       "type": "story",
       "lesson": "content/lessons/blackout-ledger.json"
@@ -81,7 +81,16 @@
       "missionIds": [
         "equation-vault"
       ],
-      "nextStep": "After submitting, follow your teacher’s directions for extension work."
+      "nextStep": "After submitting your Vault report, begin Mission 2: The Blackout Ledger when your teacher directs you."
+    },
+    {
+      "id": "blackout-ledger",
+      "title": "Mission 2 · The Blackout Ledger",
+      "instructions": "After completing Equation Vault, recover the missing broadcast. Work through all four chapters, record your reasoning, complete the mastery check, and download your mission report. Submit the report through your teacher’s class assignment.",
+      "missionIds": [
+        "blackout-ledger"
+      ],
+      "nextStep": "Submit your report, then wait for your teacher to release the next mission."
     }
   ]
 }

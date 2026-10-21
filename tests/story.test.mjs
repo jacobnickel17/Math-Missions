@@ -12,9 +12,9 @@ const response=q=>q.type==='number'?String(q.answer):q.type==='choice'?q.answer:
 test('two full story lessons have independent checks, alternate forms, and correct numeric verification',()=>{
  for(const lesson of [ledger,window]){assert.deepEqual(validateStory(lesson),[]);assert.equal(lesson.stages.length,4);assert.equal(allQuestions(lesson).length,22);for(const q of allQuestions(lesson)){assert.equal(answered(q,response(q)),true,q.id);assert.equal(correct(q,response(q)),true,q.id);}}
 });
-test('draft sequence preserves the Vault link and excludes new missions from public assignments',()=>{
+test('release includes Ledger while Window remains draft and unassigned',()=>{
  assert.deepEqual(validateCatalog(catalog),[]);
- for(const id of [ledger.id,window.id]){const m=catalog.missions.find(m=>m.id===id);assert.equal(m.status,'draft');assert.equal(missionUrl(m),'story.html?id='+id);assert.equal(publishedMissions(catalog).some(m=>m.id===id),false);assert.equal(catalog.assignments.some(a=>a.missionIds.includes(id)),false);}
+ for(const id of [ledger.id,window.id]){const m=catalog.missions.find(m=>m.id===id);const released=id===ledger.id;assert.equal(m.status,released?'published':'draft');assert.equal(missionUrl(m),'story.html?id='+id);assert.equal(publishedMissions(catalog).some(m=>m.id===id),released);assert.equal(catalog.assignments.some(a=>a.missionIds.includes(id)),released);}
  assert.equal(ledger.nextMission,window.id);
 });
 test('linear inequalities reverse only for a negative coefficient and include fractional boundaries',()=>{

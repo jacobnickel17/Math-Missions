@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - run: npm test
-      - run: npm run build
+      - run: npm run build -- --production
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
