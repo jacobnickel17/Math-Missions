@@ -1,0 +1,25 @@
+name: Test and preview
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: math-missions-preview
+          path: dist
+          retention-days: 14
+      - run: |
+          echo '### Preview ready' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download math-missions-preview, or open this PR branch in Codespaces and run npm run build && npm run preview. Keep port 4173 private. No production deployment occurs in this workflow.' >> "$GITHUB_STEP_SUMMARY"

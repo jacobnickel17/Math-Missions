@@ -1,0 +1,40 @@
+{
+  "id": "signal-checkpoint",
+  "objective": "Solve linear equations with variables on both sides and check by substitution.",
+  "instructions": "Find x for each equation. Write your reasoning on paper. Check your result in both sides.",
+  "problems": [
+    {
+      "id": "signal-a",
+      "prompt": "Restore channel A.",
+      "a": 3,
+      "b": 2,
+      "c": 1,
+      "d": 10,
+      "answer": 4,
+      "hint": "Subtract x from both sides, then subtract 2.",
+      "explanation": "2x = 8, so x = 4. Both sides equal 14."
+    },
+    {
+      "id": "signal-b",
+      "prompt": "Restore channel B.",
+      "a": 5,
+      "b": -7,
+      "c": 2,
+      "d": 8,
+      "answer": 5,
+      "hint": "Subtract 2x from both sides, then add 7.",
+      "explanation": "3x = 15, so x = 5. Both sides equal 18."
+    },
+    {
+      "id": "signal-c",
+      "prompt": "Restore channel C.",
+      "a": 2,
+      "b": 9,
+      "c": 5,
+      "d": 0,
+      "answer": 3,
+      "hint": "Subtract 2x from both sides.",
+      "explanation": "9 = 3x, so x = 3. Both sides equal 15."
+    }
+  ]
+}
