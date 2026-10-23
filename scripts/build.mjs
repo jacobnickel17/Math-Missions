@@ -4,7 +4,7 @@ await check();
 const production=process.argv.includes('--production');
 const dist=new URL('../dist/',import.meta.url);
 await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});
-for(const p of ['index.html','unit-4','missions','teacher','assets','content'])await cp(new URL('../'+p,import.meta.url),new URL(p,dist),{recursive:true});
+for(const p of ['index.html','unit-4','units-3-4','missions','teacher','assets','content'])await cp(new URL('../'+p,import.meta.url),new URL(p,dist),{recursive:true});
 const catalog=JSON.parse(await readFile(new URL('../content/catalog.json',import.meta.url),'utf8'));
 // Preserve the complete source metadata for teacher proposals while student routes
 // see only released content. Draft lesson source stays in GitHub, not the live build.
