@@ -2,7 +2,7 @@
 
 Cloud-first content and teacher-reviewed releases, with the working Equation Vault preserved.
 
-- Students: [assignments](missions/) · [Equation Vault](unit-4/equation-vault/)
+- Students: [assignments](missions/) · [Equation Vault](unit-4/equation-vault/) · [The Lost Blueprint team mission](units-3-4/lost-blueprint/)
 - Teachers: [workspace](teacher/) · [school/home setup](docs/SETUP.md)
 - Maintainers: [architecture and decisions](docs/ARCHITECTURE.md) · [AI lesson workflow](docs/AI-LESSONS.md)
 - New draft sequence: [The missing broadcast](missions/sequence.html) · [teacher guide and answer key](docs/STORY-MISSIONS.md) · [refresh your Codespace preview](docs/STORY-PREVIEW.md)
