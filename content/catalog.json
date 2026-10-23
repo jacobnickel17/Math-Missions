@@ -5,6 +5,11 @@
       "id": "signal-zero",
       "title": "Operation Signal Zero",
       "briefing": "Free the rover, recover a school showcase’s missing broadcast, and leave a message for the next crew."
+    },
+    {
+      "id": "blueprint",
+      "title": "The Lost Blueprint",
+      "briefing": "Collaborate to recover a lost research station through original expression, equation, and modeling puzzles."
     }
   ],
   "missions": [
@@ -71,6 +76,24 @@
       "arcId": "signal-zero",
       "type": "story",
       "lesson": "content/lessons/signal-window.json"
+    },
+    {
+      "id": "lost-blueprint",
+      "title": "The Lost Blueprint",
+      "unit": "Units 3–4 · Test review extension",
+      "summary": "A cooperative escape-room challenge: simplify expressions, factor and distribute, analyze equations, and defend real-world decisions.",
+      "skills": [
+        "Equivalent expressions",
+        "Factoring and distributing",
+        "Multistep equations",
+        "Real-world equation models",
+        "Error analysis"
+      ],
+      "minutes": 35,
+      "status": "published",
+      "arcId": "blueprint",
+      "type": "legacy",
+      "path": "units-3-4/lost-blueprint/"
     }
   ],
   "assignments": [
@@ -91,6 +114,15 @@
         "blackout-ledger"
       ],
       "nextStep": "Submit your report, then wait for your teacher to release the next mission."
+    },
+    {
+      "id": "units-3-4-extension",
+      "title": "Units 3–4 · The Lost Blueprint (team extension)",
+      "instructions": "After completing your assigned review and demonstrating readiness for the test, form a team of two or three. Rotate Solver, Challenger, and Explainer roles, complete every room with work on paper, and download your team report. Your teacher will review your explanations.",
+      "missionIds": [
+        "lost-blueprint"
+      ],
+      "nextStep": "Submit the team report as directed. If time remains, discuss the hardest puzzle with another team without revealing its answer."
     }
   ]
 }
