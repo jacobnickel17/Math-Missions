@@ -24,7 +24,7 @@ export function solveInequality(math) {
   return {operator: coefficient < 0 ? flip[math.op] : math.op, boundary:(math.d-math.b)/coefficient};
 }
 export function allQuestions(lesson) {
-  return [...lesson.stages.flatMap(s => s.questions), ...lesson.mastery.forms.flat()];
+  return [...lesson.stages.flatMap(s => [...(s.exampleSteps||[]),...s.questions]), ...lesson.mastery.forms.flat()];
 }
 export function validateStory(lesson) {
   const errors = [];
@@ -39,6 +39,7 @@ export function validateStory(lesson) {
     if (!Array.isArray(stage.questions) || !['guided','practice','unlock'].every(p => stage.questions.some(q => q.phase === p))) errors.push('Guided, practice and unlock questions required');
     if (!idPattern.test(stage.id) || ids.has(stage.id)) errors.push('Unique stage IDs required');
     ids.add(stage.id);
+    if(stage.exampleSteps!==undefined && (!Array.isArray(stage.exampleSteps)||!stage.exampleSteps.length||!text(stage.exampleIntro)||stage.exampleSteps.some(q=>!['guided','practice'].includes(q.phase))))errors.push('Interactive example requires supported steps and introduction');
   }
   if (!Array.isArray(lesson.mastery?.forms) || lesson.mastery.forms.length !== 2 || lesson.mastery.forms.some(f => !Array.isArray(f) || f.length !== 5) || lesson.mastery.pass !== 4) return [...errors,'Two five-question mastery forms, pass score 4 required'];
   const qids = new Set();
@@ -80,7 +81,7 @@ export function freshStory(lesson) {
   return {revision:lesson.revision,stage:0,unlocked:0,responses:{},checks:{},notes:{},attempts:[],hints:[],masteryAttempts:[],form:0,reflection:''};
 }
 export function canAdvance(stage,state) {
-  return stage.questions.every(q=>correct(q,state.responses[q.id])&&state.checks[q.id]===true) && (state.notes[stage.id]||'').trim().length>=30;
+  return [...(stage.exampleSteps||[]),...stage.questions].every(q=>correct(q,state.responses[q.id])&&state.checks[q.id]===true) && (state.notes[stage.id]||'').trim().length>=30;
 }
 export function gradeMastery(lesson,state) {
   const questions=lesson.mastery.forms[state.form];
@@ -92,10 +93,11 @@ export function report(lesson,mission,state) {
   const lines=[mission.title,'Operation Signal Zero — local practice report','Content revision: '+lesson.revision,'Exported: '+new Date().toISOString(),'Objective: '+lesson.objective,'This is a self-reported local record; explanations need teacher review.',''];
   for(const stage of lesson.stages){
     lines.push(stage.title,'Unlocked: '+(state.unlocked>lesson.stages.indexOf(stage)?'yes':'no'));
-    for(const q of stage.questions){const attempts=state.attempts.filter(a=>a.id===q.id);lines.push(q.prompt,'Response: '+JSON.stringify(state.responses[q.id]??'(blank)'),'Checks: '+attempts.length+'; first check correct: '+(attempts.length?attempts[0].correct:'not checked')+'; hint opened: '+state.hints.includes(q.id));}
+    for(const q of [...(stage.exampleSteps||[]),...stage.questions]){const attempts=state.attempts.filter(a=>a.id===q.id);lines.push(q.prompt,'Response: '+JSON.stringify(state.responses[q.id]??'(blank)'),'Checks: '+attempts.length+'; first check correct: '+(attempts.length?attempts[0].correct:'not checked')+'; hint opened: '+state.hints.includes(q.id));}
     lines.push('Reasoning: '+(state.notes[stage.id]||'(blank)'),'');
   }
-  for(const [i,a] of state.masteryAttempts.entries()){lines.push('Mastery attempt '+(i+1)+': '+a.score+'/'+a.total+' (form '+(a.form+1)+')');for(const r of a.results)lines.push(r.id+': '+JSON.stringify(r.response)+'; correct: '+r.correct);}
+  for(const [i,a] of state.masteryAttempts.entries()){lines.push('Mastery attempt '+(i+1)+': '+a.score+'/'+a.total+' (form '+(a.form+1)+'); no hints available; '+(a.score>=lesson.mastery.pass?'PASS':'RETRY'));for(const r of a.results)lines.push(r.id+': '+JSON.stringify(r.response)+'; correct: '+r.correct);}
   lines.push('Final reflection: '+(state.reflection||'(blank)'),'Student responses are not transmitted. Submit this report through your teacher’s class assignment.');
   return lines.join('\n');
 }
+

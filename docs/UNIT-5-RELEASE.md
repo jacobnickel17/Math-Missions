@@ -2,6 +2,8 @@
 
 Status: STAGED for teacher review only. The proposed change lives on release/unit-5-signal-window. Do not merge or deploy until the teacher approves the math and experience.
 
+For the current evidence, remaining device/Canvas checks, cloud preview and publication blockers, read [UNIT-5-VERIFICATION.md](UNIT-5-VERIFICATION.md). The first two examples now use six guided steps and four steps with reduced support; they are no longer passive worked lists. Negative-coefficient inequalities align with Grade 7 7.EEI.B.4c; combined constraints/optimization add application beyond that core expectation.
+
 ## Proposed student experience
 - Title: The Signal Window (Unit 5 · Mission 3)
 - Story: continue Operation Signal Zero after The Blackout Ledger
@@ -35,3 +37,4 @@ Status: STAGED for teacher review only. The proposed change lives on release/uni
 
 ## Rollback
 Retain the previous working production release if any tests or approval controls fail. Do not bypass the reviewer gate. Revert a bad release through a new reviewed PR and approved deployment.
+

@@ -5,7 +5,7 @@
 2. The Blackout Ledger (approximately 60 minutes): interpret fixed/variable cost, compare tables around a crossover, build revenue/cost/profit models, and justify minimum whole-number quantities.
 3. The Signal Window (approximately 60 minutes): translate inclusive/strict limits, solve/graph inequalities, reverse direction for negative division, and combine limits into a feasible plan.
 
-Vault already introduces break-even comparison. Mission 2 advances to NET PROFIT, assumptions, and discrete decisions rather than presenting break-even as a wholly new skill. Mission 3 formalizes those boundaries as sets of solutions. Negative division and combined constraints are deliberate extension material; pause for explicit instruction if this is a student's first inequality lesson.
+Vault already introduces break-even comparison. Mission 2 advances to NET PROFIT, assumptions, and discrete decisions rather than presenting break-even as a wholly new skill. Mission 3 formalizes those boundaries as sets of solutions. Negative coefficients are within Missouri Grade 7 7.EEI.B.4c; combined constraints and optimization add application. Pause for explicit instruction if this is a student's first inequality lesson. Signal Window revision 2 adds six interactive example steps in Chapter 1 and four with reduced support in Chapter 2; see UNIT-5-VERIFICATION.md for the updated review evidence.
 
 The story follows Vault's rover into Meridian Middle's Night Market, an invented student showcase. Its missing broadcast turns out to be a student-made time capsule. Chapter clues gradually change the mystery from “what broke?” to “what do we want future students to remember?” No real emergencies or dangerous equipment instructions are used.
 
@@ -129,3 +129,4 @@ Download mission report works during or after a mission. It includes responses, 
 3. **x < 8** — All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.
 4. **7** — Feasible whole counts are 5, 6, 7. Eight fails the strict reserve limit.
 5. **5 sessions, because it is the smallest feasible count.** — With positive per-session cost and a fixed setup, choose the smallest feasible count: 5.
+

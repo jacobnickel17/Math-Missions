@@ -1,6 +1,6 @@
 {
   "format": "story-v1",
-  "revision": 1,
+  "revision": 2,
   "id": "signal-window",
   "objective": "Translate real-world limits into inequalities, solve and graph solution sets, reverse direction when dividing by a negative, and combine constraints with whole-number domains.",
   "instructions": "Continue the missing-broadcast story through four chapters. Explain which real numbers make each inequality true. For graph questions, state the solution set, choose the number at the circle, decide whether that number is included, and shade toward the other solutions. Finish mastery and export your report.",
@@ -90,7 +90,122 @@
         }
       ],
       "reflection": "Explain why finding x = 12 does not describe every affordable plan, and distinguish “at most” from “fewer than.”",
-      "reveal": "The first hidden clip shows students filming their empty lunch table, then filling it with friends who usually avoid the camera. A caption reads: “Save a place for someone new.” The archive is about belonging, not a secret prize."
+      "reveal": "The first hidden clip shows students filming their empty lunch table, then filling it with friends who usually avoid the camera. A caption reads: “Save a place for someone new.” The archive is about belonging, not a secret prize.",
+      "exampleIntro": "Build this example with me: a club has $44. Tickets cost $4 each plus an $8 order fee. Let t be the number of tickets. Complete each step to reveal the next.",
+      "exampleSteps": [
+        {
+          "id": "tickets-model",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Step 1 · The total cost is 8 + 4t. Which comparison means spend at most $44?",
+          "choices": [
+            {
+              "id": "cap",
+              "text": "8 + 4t ≤ 44"
+            },
+            {
+              "id": "minimum",
+              "text": "8 + 4t ≥ 44"
+            },
+            {
+              "id": "exact",
+              "text": "8 + 4t = 44 only"
+            }
+          ],
+          "answer": "cap",
+          "hint": "At most allows spending exactly $44 and spending less.",
+          "explanation": "Use ≤ to include the spending limit and every cheaper plan."
+        },
+        {
+          "id": "tickets-operation",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Step 2 · In 8 + 4t ≤ 44, how do we undo the $8 order fee on both sides?",
+          "choices": [
+            {
+              "id": "subtract",
+              "text": "Subtract 8 from both sides"
+            },
+            {
+              "id": "add",
+              "text": "Add 8 to both sides"
+            },
+            {
+              "id": "divide",
+              "text": "Divide only the right side by 4"
+            }
+          ],
+          "answer": "subtract",
+          "hint": "Undo addition with subtraction. Keep the comparison balanced.",
+          "explanation": "Subtracting the same amount preserves the inequality direction."
+        },
+        {
+          "id": "tickets-subtract",
+          "type": "number",
+          "phase": "guided",
+          "prompt": "Step 3 · After subtracting 8, 4t ≤ ___. Calculate 44 − 8.",
+          "answer": 36,
+          "calculation": 36,
+          "hint": "Take the $8 fee out of the $44 budget.",
+          "explanation": "4t ≤ 36. Now the remaining budget is available for tickets."
+        },
+        {
+          "id": "tickets-divide",
+          "type": "number",
+          "phase": "guided",
+          "prompt": "Step 4 · Divide both sides of 4t ≤ 36 by positive 4. Complete t ≤ ___.",
+          "answer": 9,
+          "calculation": 9,
+          "hint": "Compute 36 ÷ 4. Dividing by a positive number preserves ≤.",
+          "explanation": "t ≤ 9. Nine is included, and smaller real numbers also solve the inequality."
+        },
+        {
+          "id": "tickets-test",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Step 5 · Test the boundary: 8 + 4(9) = 44. Does 9 belong to the solution set?",
+          "choices": [
+            {
+              "id": "yes",
+              "text": "Yes: 44 ≤ 44 is true"
+            },
+            {
+              "id": "no",
+              "text": "No: inequalities always exclude equality"
+            },
+            {
+              "id": "only",
+              "text": "Yes, and 9 is the only solution"
+            }
+          ],
+          "answer": "yes",
+          "hint": "The symbol ≤ includes equality. Also test a smaller number.",
+          "explanation": "Nine works. Eight works too because 8 + 4(8) = 40 ≤ 44."
+        },
+        {
+          "id": "tickets-domain",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Step 6 · Which answer distinguishes the real-number solution from usable ticket counts?",
+          "choices": [
+            {
+              "id": "whole",
+              "text": "Real numbers t ≤ 9; actual tickets are whole counts 0 through 9"
+            },
+            {
+              "id": "nine",
+              "text": "Only t = 9"
+            },
+            {
+              "id": "decimal",
+              "text": "Any real number t ≤ 9 is a possible ticket count, even −2 or 8.5"
+            }
+          ],
+          "answer": "whole",
+          "hint": "The algebra allows 8.5 and negative values, but tickets are counted in nonnegative whole numbers.",
+          "explanation": "The solution is a set. Apply the context after solving the real-number inequality."
+        }
+      ]
     },
     {
       "id": "graph",
@@ -178,7 +293,86 @@
         }
       ],
       "reflection": "Explain which real numbers solve one of these inequalities. Use a fractional or decimal example, say whether the number at the circle is a solution, and explain the shading direction.",
-      "reveal": "A second clip shows a student saying: “I thought nobody would remember my drawing.” The rover projects the same tiny star logo Maya found on the receiver receipt. The anonymous broadcast was a collaboration across clubs."
+      "reveal": "A second clip shows a student saying: “I thought nobody would remember my drawing.” The rover projects the same tiny star logo Maya found on the receiver receipt. The anonymous broadcast was a collaboration across clubs.",
+      "exampleIntro": "Your turn with fewer prompts: solve 3t + 2 < 20, then graph the real-number solution. Choose your own operations. Hints are available if you need them.",
+      "exampleSteps": [
+        {
+          "id": "trials-subtract",
+          "type": "number",
+          "phase": "guided",
+          "prompt": "Step 1 · Remove the constant term from both sides. Complete 3t < ___.",
+          "answer": 18,
+          "calculation": 18,
+          "hint": "Subtract 2 from both sides.",
+          "explanation": "3t < 18. Subtraction preserves the direction."
+        },
+        {
+          "id": "trials-solve",
+          "type": "inequality",
+          "phase": "practice",
+          "prompt": "Step 2 · Solve 3t < 18. Enter the boundary and choose the relation.",
+          "math": {
+            "a": 3,
+            "b": 0,
+            "c": 0,
+            "d": 18,
+            "op": "<"
+          },
+          "answer": {
+            "boundary": 6,
+            "operator": "<"
+          },
+          "hint": "Divide both sides by positive 3.",
+          "explanation": "t < 6. The boundary 6 is excluded.",
+          "variable": "t"
+        },
+        {
+          "id": "trials-graph",
+          "type": "graph",
+          "phase": "practice",
+          "prompt": "Step 3 · Graph the solution of 3t + 2 < 20 over the real numbers.",
+          "math": {
+            "a": 3,
+            "b": 2,
+            "c": 0,
+            "d": 20,
+            "op": "<"
+          },
+          "answer": {
+            "boundary": 6,
+            "direction": "left",
+            "closed": false,
+            "meaning": "<"
+          },
+          "requireMeaning": true,
+          "hint": "Test t = 6 for the circle and t = 5 for the shading direction.",
+          "explanation": "Open circle at 6, shade left: 3(6) + 2 = 20 fails, while 3(5) + 2 = 17 works.",
+          "variable": "t"
+        },
+        {
+          "id": "trials-domain",
+          "type": "choice",
+          "phase": "guided",
+          "prompt": "Step 4 · If t counts whole trials, which list is usable?",
+          "choices": [
+            {
+              "id": "whole",
+              "text": "0, 1, 2, 3, 4, 5"
+            },
+            {
+              "id": "six",
+              "text": "0, 1, 2, 3, 4, 5, 6"
+            },
+            {
+              "id": "negative",
+              "text": "Every real number less than 6, including negatives"
+            }
+          ],
+          "answer": "whole",
+          "hint": "Apply the nonnegative whole-number domain after solving t < 6.",
+          "explanation": "Six fails the strict limit. Fractions and negative values are excluded only by the trial-count context."
+        }
+      ]
     },
     {
       "id": "reverse",

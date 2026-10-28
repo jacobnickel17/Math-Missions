@@ -1,0 +1,8 @@
+{
+  "name": "Math Missions teacher preview",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
+  "forwardPorts": [4173],
+  "portsAttributes": {"4173": {"label": "Teacher preview", "onAutoForward": "openPreview"}},
+  "postCreateCommand": "npm run build",
+  "customizations": {"vscode": {"settings": {"workbench.startupEditor": "readme"}}}
+}

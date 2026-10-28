@@ -15,6 +15,11 @@ jobs:
           node-version: '24'
       - run: npm test
       - run: npm run build
+      - name: Describe the reviewed preview revision
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          printf '{"commit":"%s","production":false}\n' "$HEAD_SHA" > dist/preview-revision.json
       - uses: actions/upload-artifact@v4
         with:
           name: math-missions-preview
@@ -22,4 +27,5 @@ jobs:
           retention-days: 14
       - run: |
           echo '### Preview ready' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Download math-missions-preview, or open this PR branch in Codespaces and run npm run build && npm run preview. Keep port 4173 private. No production deployment occurs in this workflow.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Open https://codespaces.new/jacobnickel17/Math-Missions?ref=release%2Funit-5-signal-window for the Unit 5 cloud preview. In an existing Codespace, select the PR branch and pull its latest changes first. Run npm run build and npm run preview. Keep port 4173 private; use its Browser preview. The artifact contains preview-revision.json to identify its commit. No production deployment occurs in this workflow.' >> "$GITHUB_STEP_SUMMARY"
+
