@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {validateCatalog,validateLesson,publishedMissions,localPath,missionUrl} from '../assets/model.js';import {check} from '../scripts/check.mjs';
 const c=JSON.parse(await readFile(new URL('../content/catalog.json',import.meta.url)));const l=JSON.parse(await readFile(new URL('../content/lessons/signal-checkpoint.json',import.meta.url)));
 test('repository content and protected Vault baseline',()=>check());
-test('drafts hidden; legacy links stable when titles change',()=>{assert.equal(publishedMissions(c).length,3);const m={...c.missions[0],title:'New title'};assert.equal(missionUrl(m),'../unit-4/equation-vault/');});
+test('drafts hidden; legacy links stable when titles change',()=>{assert.equal(publishedMissions(c).length,4);const m={...c.missions[0],title:'New title'};assert.equal(missionUrl(m),'../unit-4/equation-vault/');});
 test('assignments reject missing or draft lessons',()=>{for(const id of ['missing','signal-checkpoint']){const v=structuredClone(c);v.assignments[0].missionIds=[id];assert.ok(validateCatalog(v).length);}});
 test('unsafe paths, duplicate IDs, unknown arcs, invalid minutes rejected',()=>{for(const patch of [{path:'https://bad.test/'},{path:'../secrets'},{arcId:'missing'},{minutes:0},{status:'ready'},{id:c.missions[1].id}]){const v=structuredClone(c);Object.assign(v.missions[0],patch);assert.ok(validateCatalog(v).length);}});
 test('URLs are restricted to safe local content',()=>{for(const p of ['../x','javascript:alert(1)','//example.org','%2e%2e/x','a\\b'])assert.equal(localPath(p),false);});
