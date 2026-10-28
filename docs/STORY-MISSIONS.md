@@ -1,18 +1,18 @@
-# Operation Signal Zero — teacher guide for the two-mission batch
+# Operation Signal Zero — teacher guide for Missions 2 and 3
 
 ## Sequence and purpose
 1. Equation Vault (existing): equations with variables on both sides, special solution types, modeling and error analysis. Unchanged.
-2. The Blackout Ledger (draft, approximately 60 minutes): interpret fixed/variable cost, compare tables around a crossover, build revenue/cost/profit models, and justify minimum whole-number quantities.
-3. The Signal Window (draft, approximately 60 minutes): translate inclusive/strict limits, solve/graph inequalities, reverse direction for negative division, and combine limits into a feasible plan.
+2. The Blackout Ledger (approximately 60 minutes): interpret fixed/variable cost, compare tables around a crossover, build revenue/cost/profit models, and justify minimum whole-number quantities.
+3. The Signal Window (approximately 60 minutes): translate inclusive/strict limits, solve/graph inequalities, reverse direction for negative division, and combine limits into a feasible plan.
 
 Vault already introduces break-even comparison. Mission 2 advances to NET PROFIT, assumptions, and discrete decisions rather than presenting break-even as a wholly new skill. Mission 3 formalizes those boundaries as sets of solutions. Negative division and combined constraints are deliberate extension material; pause for explicit instruction if this is a student's first inequality lesson.
 
 The story follows Vault's rover into Meridian Middle's Night Market, an invented student showcase. Its missing broadcast turns out to be a student-made time capsule. Chapter clues gradually change the mystery from “what broke?” to “what do we want future students to remember?” No real emergencies or dangerous equipment instructions are used.
 
 ## Preview and assignment
-Both new missions remain draft and are excluded from the published student library and assignments. In the teacher preview, click “Preview the three-mission story,” or open /missions/sequence.html. You can also select either new title in the teacher dropdown and use Preview selected mission. Draft content and answer keys are public repository files, not secure assessments.
+The student release status of each mission is determined by content/catalog.json and the teacher-approved production deployment. The Signal Window is staged in the Unit 5 release review branch and must not be shared until that release is approved. In a private teacher Codespaces preview, click “Preview the three-mission story,” or open /missions/sequence.html. You can also select either story mission in the teacher dropdown and use Preview selected mission. Source content and answer keys are public repository files, not secure assessments.
 
-The direct previews are /missions/story.html?id=blackout-ledger and /missions/story.html?id=signal-window. The recommended prerequisite order is visible in the sequence; it is not a centralized student completion lock. After mastery, the ledger links to the window. Do not add them to a student assignment until you approve their status and the release.
+The direct previews are /missions/story.html?id=blackout-ledger and /missions/story.html?id=signal-window. The recommended prerequisite order is visible in the sequence; it is not a centralized student completion lock. After mastery, the ledger links to the window. Use the Signal Window student assignment link only after you approve the release and verify it on a school Chromebook.
 
 ## Pacing
 Allow two 30–35 minute sessions per mission if one 60-minute block is too long.
