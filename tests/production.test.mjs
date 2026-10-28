@@ -16,4 +16,11 @@ test('production releases Vault, Ledger, Signal Window, and Blueprint while excl
  await assert.rejects(access(new URL('dist/content/lessons/signal-checkpoint.json',root)));
  const teacher=JSON.parse(await readFile(new URL('dist/content/teacher-catalog.json',root),'utf8'));
  assert.equal(teacher.missions.find(m=>m.id==='signal-window').status,'published');
+ for(const path of ['unit-4/equation-vault/index.html','units-3-4/lost-blueprint/index.html']){
+  const html=await readFile(new URL('dist/'+path,root),'utf8');
+  assert.match(html,/legacy-response-support\.js/);assert.match(html,/response-support\.css/);
+  const original=await readFile(new URL(path,root),'utf8');
+  assert.equal(html.replace('<link rel="stylesheet" href="../../assets/response-support.css">','').replace('<script type="module" src="../../assets/legacy-response-support.js"></script>',''),original);
+ }
 });
+

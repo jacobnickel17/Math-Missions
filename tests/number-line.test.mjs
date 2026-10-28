@@ -179,3 +179,14 @@ test('storage denial keeps the lesson usable and displays the report warning',as
  assert.equal(document.getElementById('download').disabled,false);
 });
 
+test('chapter writing models are optional, preserve saved reasoning and appear in the report',async()=>{
+ const saved=freshStory(lesson);saved.notes.translate='My saved explanation with mathematical evidence.';
+ const document=await app(saved,'writing-support');
+ const support=document.getElementById('reasoning-support');assert.ok(support);
+ assert.equal(document.getElementById('reasoning').value,saved.notes.translate);
+ const details=support.querySelector('details');details.open=true;details.ontoggle();
+ assert.equal(document.getElementById('reasoning').value,saved.notes.translate);
+ assert.ok(document.saved().writingSamples.includes('translate'));
+ const {report}=await import('../assets/story-model.js');assert.match(report(lesson,{title:'The Signal Window'},document.saved()),/Writing sample opened: true/);
+});
+

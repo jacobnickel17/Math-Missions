@@ -6,3 +6,4 @@
 - Run `npm test` and `npm run build -- --production` before requesting review. Report device, keyboard and Canvas checks honestly; DOM tests are not real-device evidence.
 - Keep production deployment separate from preview. The teacher must approve the exact reviewed revision before publication; preserve fail-closed release controls. Never use a workflow edit, administrator bypass or branch auto-publishing to skip that approval.
 - Do not store student names, reports or other student data in this public repository. Progress is browser-local; reports are submitted through Canvas, not automatically transmitted.
+- Every written-response prompt needs student-friendly directions, a checklist of evidence, a sentence starter and an expandable model response in `assets/response-guidance.js`. Explain that answers may vary; do not fill the student's response or grade exact wording. Active mastery uses only a neutral writing frame/checklist, without a model solution.

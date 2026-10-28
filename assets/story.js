@@ -1,6 +1,7 @@
 import {validateCatalog,missionUrl} from './model.js';
 import {validateStory,freshStory,correct,canAdvance,gradeMastery,report,solutionMeaning} from './story-model.js';
 import {graphResponse,graphScale,graphVariable,renderNumberLine} from './number-line.js';
+import {storyGuidance,renderWritingSupport} from './response-guidance.js';
 
 const $=id=>document.getElementById(id);
 const add=(p,tag,text='',className='')=>{const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;p.append(el);return el;};
@@ -115,9 +116,11 @@ function stageScreen(index) {
   }else{add(teaching,'h3','Worked example');const ol=add(teaching,'ol','','worked');for(const s of stage.worked)add(ol,'li',s);}
   if(stage.table){const wrap=add(teaching,'div','','table-wrap');const table=add(wrap,'table');add(table,'caption',stage.table.caption);const tr=add(add(table,'thead'),'tr');for(const h of stage.table.headers)add(tr,'th',h).scope='col';const body=add(table,'tbody');for(const values of stage.table.rows){const row=add(body,'tr');for(const v of values)add(row,'td',String(v));}}
   for(const q of stage.questions)question(q,root);
-  const label=add(root,'label',stage.reflection);label.htmlFor='reasoning';
-  const notes=add(root,'textarea');notes.id='reasoning';notes.value=state.notes[stage.id]||'';notes.placeholder='Explain using quantities, units, and evidence. Your teacher reviews this reasoning.';notes.oninput=()=>{state.notes[stage.id]=notes.value;save();};
-  add(root,'p','Write at least 30 characters. This checks that you recorded reasoning; it does not automatically grade the explanation.','minor');
+  const guidance=storyGuidance[lesson.id]?.[stage.id];
+  const label=add(root,'label',guidance?.prompt||stage.reflection);label.htmlFor='reasoning';
+  if(guidance)renderWritingSupport(root,guidance,'reasoning-support',{onSample:()=>recordSample(stage.id)});
+  const notes=add(root,'textarea');notes.id='reasoning';notes.value=state.notes[stage.id]||'';notes.placeholder='Write 2–3 sentences in your own words. Use the checklist and sentence starter above.';if(guidance)notes.setAttribute('aria-describedby','reasoning-support');notes.oninput=()=>{state.notes[stage.id]=notes.value;save();};
+  add(root,'p','Aim for 2–3 sentences with math evidence. Your teacher checks the explanation; the game only checks that you wrote something (at least 30 characters).','minor');
   const status=add(root,'p','','feedback');status.setAttribute('role','status');
   button(root,'Unlock the next story clue',()=>{
     if(!canAdvance(stage,state)){status.textContent='Complete the interactive example, check each chapter answer correctly, and record your reasoning before unlocking the clue.';return;}
@@ -138,8 +141,10 @@ function masteryScreen() {
     for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
     if(current.score>=lesson.mastery.pass){
       add(root,'p',lesson.ending,'story-text');
-      const label=add(root,'label',lesson.reportPrompt);label.htmlFor='final-reflection';
-      const reflection=add(root,'textarea');reflection.id='final-reflection';reflection.value=state.reflection;reflection.oninput=()=>{state.reflection=reflection.value;save();};
+      const guidance=storyGuidance[lesson.id]?.final;
+      const label=add(root,'label',guidance?.prompt||lesson.reportPrompt);label.htmlFor='final-reflection';
+      if(guidance)renderWritingSupport(root,guidance,'final-reflection-support',{onSample:()=>recordSample('final')});
+      const reflection=add(root,'textarea');reflection.id='final-reflection';reflection.value=state.reflection;reflection.placeholder='Use the checklist to write your recommendation in your own words.';if(guidance)reflection.setAttribute('aria-describedby','final-reflection-support');reflection.oninput=()=>{state.reflection=reflection.value;save();};
       add(root,'p','Your teacher reviews this reflection. Download your report and submit it in your class assignment.');
       button(root,'Download completed mission report',download);
       if(lesson.nextMission){const next=catalog.missions.find(m=>m.id===lesson.nextMission);if(next){const a=add(root,'a','Next: '+next.title,'button');a.href=missionUrl(next);}}
@@ -151,6 +156,7 @@ function masteryScreen() {
   const status=add(root,'p','','feedback');status.setAttribute('role','status');
   button(root,'Submit mastery check',()=>{try{state.masteryAttempts.push(gradeMastery(lesson,state));save();render();}catch(e){status.textContent=e.message;}});
 }
+function recordSample(id){state.writingSamples??=[];if(!state.writingSamples.includes(id)){state.writingSamples.push(id);save();}}
 function render(){
   $('stages').replaceChildren();
   lesson.stages.forEach((stage,i)=>{button($('stages'),(i+1)+'. '+stage.title,()=>{state.stage=i;save();render();}).disabled=i>state.unlocked;});

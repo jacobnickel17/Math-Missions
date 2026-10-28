@@ -2,6 +2,8 @@
 
 Reviewed October 28, 2026. Status: release branch only; teacher approval and device acceptance remain required. No production deployment was performed.
 
+Follow-up teacher request: written-response supports now cover all existing missions. See [WRITTEN-RESPONSES.md](WRITTEN-RESPONSES.md) for coverage and validation. Equation Vault's original source remains unchanged; its built page now gains the shared writing-support stylesheet and module. This is an intentional presentation enhancement, not a change to its math, scoring or storage. The suite now has 34 passing tests.
+
 ## Instruction and mathematics
 
 The first example now requires six student responses: translate the cap, select the inverse operation, subtract, divide, test the included boundary, and apply the whole-number domain. Each correct check reveals the next step. Wrong responses keep the current step open. Hints are optional and recorded. The second example fades support to four steps: compute the reduced bound, solve, graph, and restrict the domain. Completed steps can be revisited. Both examples are required before their chapter unlocks. Chapters then retain guided/practice/independent checkpoints and reasoning.
