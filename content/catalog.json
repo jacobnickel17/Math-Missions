@@ -72,7 +72,7 @@
         "Feasible whole-number plans"
       ],
       "minutes": 60,
-      "status": "draft",
+      "status": "published",
       "arcId": "signal-zero",
       "type": "story",
       "lesson": "content/lessons/signal-window.json"
@@ -114,6 +114,15 @@
         "blackout-ledger"
       ],
       "nextStep": "Submit your report, then wait for your teacher to release the next mission."
+    },
+    {
+      "id": "signal-window",
+      "title": "Unit 5 · The Signal Window",
+      "instructions": "Begin this inequality mission after The Blackout Ledger or when your teacher assigns it. Complete four chapters with guided notes, number-line graphs, a practice challenge, and a five-question mastery check. Download your mission report and submit it through Canvas.",
+      "missionIds": [
+        "signal-window"
+      ],
+      "nextStep": "Submit your report in Canvas. Review your explanations and any missed mastery questions with your teacher."
     },
     {
       "id": "units-3-4-extension",
