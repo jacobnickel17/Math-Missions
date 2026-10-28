@@ -3,7 +3,7 @@
   "revision": 2,
   "id": "signal-window",
   "objective": "Translate real-world limits into inequalities, solve and graph solution sets, reverse direction when dividing by a negative, and combine constraints with whole-number domains.",
-  "instructions": "Continue the missing-broadcast story through four chapters. Explain which real numbers make each inequality true. For graph questions, state the solution set, choose the number at the circle, decide whether that number is included, and shade toward the other solutions. Finish mastery and export your report.",
+  "instructions": "Work through four chapters: write an inequality, solve it, draw its answer on a number line, and use it to choose a plan. For solving questions, choose the sign and enter the number to build an answer such as x < 7. Finish the independent mastery check and download your report.",
   "opening": "The new receiver plays a seven-year-old student voice: “We were here, even when nobody was filming. This is our school, in our words.” Then the signal stops. Maya finds the rest of the file inside the Night Market projection schedule. Your rover can replay it at a student booth—but the schedule must respect a spending cap, a minimum audience goal, and a simulated energy reserve. These are classroom planning models, not instructions for real electrical equipment.",
   "stages": [
     {
@@ -50,7 +50,7 @@
           "id": "window-cap",
           "type": "inequality",
           "phase": "practice",
-          "prompt": "Solve 18 + 6x ≤ 90 over the real numbers. Write a statement describing all its solutions.",
+          "prompt": "The booth costs $18 to set up and $6 per session. You can spend at most $90. Solve the inequality for x, the number of sessions.",
           "math": {
             "a": 6,
             "b": 18,
@@ -62,8 +62,9 @@
             "operator": "<=",
             "boundary": 12
           },
-          "hint": "Subtract 18, then divide by positive 6.",
-          "explanation": "All real numbers less than or equal to 12 are solutions. 6x ≤ 72 gives x ≤ 12. Twelve sessions are included."
+          "hint": "Subtract 18 from both sides. Then divide both sides by positive 6; keep the inequality sign pointing the same way.",
+          "explanation": "All real numbers less than or equal to 12 are solutions. 6x ≤ 72 gives x ≤ 12. Twelve sessions are included.",
+          "displayMath": "18 + 6x ≤ 90"
         },
         {
           "id": "window-language",
@@ -229,7 +230,7 @@
           "id": "window-graph-cap",
           "type": "graph",
           "phase": "guided",
-          "prompt": "Graph x ≤ 12 over the real numbers.",
+          "prompt": "Graph x ≤ 12 on the number line.",
           "math": {
             "a": 1,
             "b": 0,
@@ -251,7 +252,7 @@
           "id": "window-graph-min",
           "type": "graph",
           "phase": "practice",
-          "prompt": "Graph t ≥ 5 over the real numbers for a minimum loading time of 5 minutes.",
+          "prompt": "Graph t ≥ 5 on the number line for a minimum loading time of 5 minutes.",
           "math": {
             "a": 1,
             "b": 0,
@@ -273,7 +274,7 @@
           "id": "window-graph-strict",
           "type": "graph",
           "phase": "unlock",
-          "prompt": "Graph t < 9 over the real numbers for an intro that must be less than 9 minutes.",
+          "prompt": "Graph t < 9 on the number line for an intro that must be less than 9 minutes.",
           "math": {
             "a": 1,
             "b": 0,
@@ -310,7 +311,7 @@
           "id": "trials-solve",
           "type": "inequality",
           "phase": "practice",
-          "prompt": "Step 2 · Solve 3t < 18. Enter the boundary and choose the relation.",
+          "prompt": "Step 2 · Solve this inequality for t.",
           "math": {
             "a": 3,
             "b": 0,
@@ -324,13 +325,14 @@
           },
           "hint": "Divide both sides by positive 3.",
           "explanation": "t < 6. The boundary 6 is excluded.",
-          "variable": "t"
+          "variable": "t",
+          "displayMath": "3t < 18"
         },
         {
           "id": "trials-graph",
           "type": "graph",
           "phase": "practice",
-          "prompt": "Step 3 · Graph the solution of 3t + 2 < 20 over the real numbers.",
+          "prompt": "Step 3 · Graph the solution of 3t + 2 < 20 on the number line.",
           "math": {
             "a": 3,
             "b": 2,
@@ -395,7 +397,7 @@
           "id": "window-reserve",
           "type": "inequality",
           "phase": "guided",
-          "prompt": "Solve 50 − 4x ≥ 14 over the real numbers.",
+          "prompt": "The simulator starts with 50 points and uses 4 per session. At least 14 points must remain. Solve the inequality for x.",
           "math": {
             "a": -4,
             "b": 50,
@@ -408,7 +410,8 @@
             "boundary": 9
           },
           "hint": "After subtracting 50, divide by −4 and reverse the relation.",
-          "explanation": "All real numbers less than or equal to 9 are solutions. −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain."
+          "explanation": "All real numbers less than or equal to 9 are solutions. −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain.",
+          "displayMath": "50 − 4x ≥ 14"
         },
         {
           "id": "window-error",
@@ -437,7 +440,7 @@
           "id": "window-independent",
           "type": "inequality",
           "phase": "unlock",
-          "prompt": "A second simulator starts at 62 points, uses 5 per session, and must leave MORE THAN 17. Solve 62 − 5x > 17 over the real numbers.",
+          "prompt": "A simulator starts with 62 points and uses 5 per session. More than 17 points must remain. Solve the inequality for x.",
           "math": {
             "a": -5,
             "b": 62,
@@ -450,7 +453,8 @@
             "boundary": 9
           },
           "hint": null,
-          "explanation": "All real numbers less than 9 are solutions. −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work."
+          "explanation": "All real numbers less than 9 are solutions. −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work.",
+          "displayMath": "62 − 5x > 17"
         }
       ],
       "reflection": "Explain the sign reversal with numbers on a number line, then use substitution to reject one incorrect session count.",
@@ -543,7 +547,7 @@
           "id": "window-m1a",
           "type": "inequality",
           "phase": "mastery",
-          "prompt": "A rental costs $15 setup plus $5 per session. Solve the at-most-$65 budget condition 15 + 5x ≤ 65 over the real numbers.",
+          "prompt": "A rental costs $15 to set up and $5 per session. The budget is $65. Solve the inequality for x, the number of sessions.",
           "math": {
             "a": 5,
             "b": 15,
@@ -556,13 +560,14 @@
             "boundary": 10
           },
           "hint": null,
-          "explanation": "All real numbers less than or equal to 10 are solutions. 5x ≤ 50 gives x ≤ 10; equality is allowed."
+          "explanation": "All real numbers less than or equal to 10 are solutions. 5x ≤ 50 gives x ≤ 10; equality is allowed.",
+          "displayMath": "15 + 5x ≤ 65"
         },
         {
           "id": "window-m2a",
           "type": "graph",
           "phase": "mastery",
-          "prompt": "Graph t > 4 over the real numbers.",
+          "prompt": "Graph t > 4 on the number line.",
           "math": {
             "a": 1,
             "b": 0,
@@ -584,7 +589,7 @@
           "id": "window-m3a",
           "type": "inequality",
           "phase": "mastery",
-          "prompt": "A simulator must leave at least 12 points. Solve 48 − 6x ≥ 12 over the real numbers.",
+          "prompt": "A simulator starts with 48 points and uses 6 per session. At least 12 points must remain. Solve the inequality for x.",
           "math": {
             "a": -6,
             "b": 48,
@@ -597,7 +602,8 @@
             "boundary": 6
           },
           "hint": null,
-          "explanation": "All real numbers less than or equal to 6 are solutions. −6x ≥ −36 becomes x ≤ 6 after dividing by −6."
+          "explanation": "All real numbers less than or equal to 6 are solutions. −6x ≥ −36 becomes x ≤ 6 after dividing by −6.",
+          "displayMath": "48 − 6x ≥ 12"
         },
         {
           "id": "window-m4a",
@@ -639,7 +645,7 @@
           "id": "window-m1b",
           "type": "inequality",
           "phase": "mastery",
-          "prompt": "A rental costs $20 setup plus $4 per session. Solve 20 + 4x ≤ 68 over the real numbers.",
+          "prompt": "A rental costs $20 to set up and $4 per session. The budget is $68. Solve the inequality for x, the number of sessions.",
           "math": {
             "a": 4,
             "b": 20,
@@ -652,13 +658,14 @@
             "boundary": 12
           },
           "hint": null,
-          "explanation": "All real numbers less than or equal to 12 are solutions. 4x ≤ 48 gives x ≤ 12. Twelve is included."
+          "explanation": "All real numbers less than or equal to 12 are solutions. 4x ≤ 48 gives x ≤ 12. Twelve is included.",
+          "displayMath": "20 + 4x ≤ 68"
         },
         {
           "id": "window-m2b",
           "type": "graph",
           "phase": "mastery",
-          "prompt": "Graph t ≥ 7 over the real numbers.",
+          "prompt": "Graph t ≥ 7 on the number line.",
           "math": {
             "a": 1,
             "b": 0,
@@ -680,7 +687,7 @@
           "id": "window-m3b",
           "type": "inequality",
           "phase": "mastery",
-          "prompt": "A simulator must leave MORE THAN 15 points. Solve 55 − 5x > 15 over the real numbers.",
+          "prompt": "A simulator starts with 55 points and uses 5 per session. More than 15 points must remain. Solve the inequality for x.",
           "math": {
             "a": -5,
             "b": 55,
@@ -693,7 +700,8 @@
             "boundary": 8
           },
           "hint": null,
-          "explanation": "All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded."
+          "explanation": "All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.",
+          "displayMath": "55 − 5x > 15"
         },
         {
           "id": "window-m4b",

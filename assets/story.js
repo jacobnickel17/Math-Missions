@@ -23,10 +23,29 @@ function controls(q,container,feedback,verified) {
     for(const o of q.choices){const label=add(group,'label','','choice');const input=document.createElement('input');input.type='radio';input.name=q.id;input.value=o.id;input.checked=response===o.id;input.onchange=()=>changed(o.id);label.append(input);add(label,'span',o.text);}
     return;
   }
+  if(q.type==='inequality'){
+    const variable=graphVariable(q);
+    const value=response&&typeof response==='object'?{...response}:{boundary:'',operator:''};
+    add(container,'p','Solve on paper. Then build your answer below.','minor');
+    const row=add(container,'div','','inequality-answer');row.setAttribute('role','group');row.setAttribute('aria-label','Your answer as an inequality');
+    const symbolBox=add(row,'div','','answer-piece');
+    const symbolLabel=add(symbolBox,'label','Choose the sign');symbolLabel.htmlFor=q.id+'-Solution-statement';
+    const symbolRow=add(symbolBox,'div','','symbol-row');add(symbolRow,'span',variable,'equation');
+    const symbol=add(symbolRow,'select');symbol.id=q.id+'-Solution-statement';symbol.add(new Option('Sign…',''));
+    for(const [op,label] of [['<','< (less than)'],['<=','≤ (less than or equal to)'],['>','> (greater than)'],['>=','≥ (greater than or equal to)']])symbol.add(new Option(label,op));
+    symbol.value=value.operator||'';
+    const numberBox=add(row,'div','','answer-piece');const label=add(numberBox,'label','Enter the number');label.htmlFor=q.id;
+    const input=add(numberBox,'input');input.id=q.id;input.type='text';input.inputMode='decimal';input.placeholder='Number';input.value=value.boundary??'';
+    const preview=add(container,'p','','inequality-readback');preview.setAttribute('aria-live','polite');
+    const paint=()=>{const signs={'<':'<','<=':'≤','>':'>','>=':'≥'};preview.textContent='Your answer: '+variable+' '+(signs[value.operator]||'□')+' '+(String(value.boundary??'').trim()||'□');};
+    const update=()=>{changed({...value});paint();};
+    symbol.onchange=()=>{value.operator=symbol.value;update();};input.oninput=()=>{value.boundary=input.value;update();};paint();
+    return;
+  }
   const row=add(container,'div','','answer-row');
   const input=document.createElement('input');input.id=q.id;input.type='text';input.inputMode='decimal';
   input.placeholder='Number only, without units';
-  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):q.type==='graph'?'Number at the circle':'Number in the solution');label.htmlFor=q.id;
+  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):'Number at the circle');label.htmlFor=q.id;
   input.value=q.type==='number'?(response??''):(response?.boundary??'');row.append(input);
   if(q.type==='number'){input.oninput=()=>changed(input.value);return;}
   response=response&&typeof response==='object'?{...response}:{boundary:'',operator:'',direction:'',closed:null};
@@ -41,8 +60,7 @@ function controls(q,container,feedback,verified) {
   }});
   const update=()=>{refreshMeaning();changed({...response});if(q.type==='graph')paint();};
   input.oninput=()=>{response.boundary=input.value;if(slider&&input.value.trim()&&Number.isFinite(Number(input.value)))slider.value=input.value;update();};
-  if(q.type==='inequality'){const variable=graphVariable(q);select('Solution statement',[['<',variable+' < the entered number'],['<=',variable+' ≤ the entered number'],['>',variable+' > the entered number'],['>=',variable+' ≥ the entered number']],response.operator,v=>{response.operator=v;update();});}
-  else{
+  {
     if(q.requireMeaning){
       const meanings=add(container,'div','','solution-meaning');
       container.insertBefore(meanings,row);
@@ -74,6 +92,7 @@ function question(q,parent,mastery=false,onCorrect) {
   const card=add(parent,'section','','question');
   add(card,'p',mastery?'Independent mastery':q.phase==='unlock'?'Independent checkpoint':q.phase==='guided'?'Guided check':'Practice','phase');
   add(card,'h3',q.prompt);
+  if(q.displayMath)add(card,'p',q.displayMath,'equation');
   const controlBox=add(card,'div');
   const feedback=add(card,'p','','feedback');feedback.setAttribute('role','status');
   const verified=add(card,'div','','verified-graph');
@@ -138,7 +157,7 @@ function masteryScreen() {
   const current=state.masteryAttempts.at(-1);
   if(current&&current.form===state.form){
     add(root,'p','Score: '+current.score+'/'+current.total,'result');
-    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
+    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);if(q.displayMath)add(box,'p',q.displayMath,'equation');add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
     if(current.score>=lesson.mastery.pass){
       add(root,'p',lesson.ending,'story-text');
       const guidance=storyGuidance[lesson.id]?.final;

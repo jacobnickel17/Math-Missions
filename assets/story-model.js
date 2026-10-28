@@ -93,10 +93,10 @@ export function report(lesson,mission,state) {
   const lines=[mission.title,'Operation Signal Zero — local practice report','Content revision: '+lesson.revision,'Exported: '+new Date().toISOString(),'Objective: '+lesson.objective,'This is a self-reported local record; explanations need teacher review.',''];
   for(const stage of lesson.stages){
     lines.push(stage.title,'Unlocked: '+(state.unlocked>lesson.stages.indexOf(stage)?'yes':'no'));
-    for(const q of [...(stage.exampleSteps||[]),...stage.questions]){const attempts=state.attempts.filter(a=>a.id===q.id);lines.push(q.prompt,'Response: '+JSON.stringify(state.responses[q.id]??'(blank)'),'Checks: '+attempts.length+'; first check correct: '+(attempts.length?attempts[0].correct:'not checked')+'; hint opened: '+state.hints.includes(q.id));}
+    for(const q of [...(stage.exampleSteps||[]),...stage.questions]){const attempts=state.attempts.filter(a=>a.id===q.id);lines.push(q.prompt,...(q.displayMath?[q.displayMath]:[]),'Response: '+JSON.stringify(state.responses[q.id]??'(blank)'),'Checks: '+attempts.length+'; first check correct: '+(attempts.length?attempts[0].correct:'not checked')+'; hint opened: '+state.hints.includes(q.id));}
     lines.push('Reasoning: '+(state.notes[stage.id]||'(blank)'),'Writing sample opened: '+(state.writingSamples||[]).includes(stage.id),'');
   }
-  for(const [i,a] of state.masteryAttempts.entries()){lines.push('Mastery attempt '+(i+1)+': '+a.score+'/'+a.total+' (form '+(a.form+1)+'); no hints available; '+(a.score>=lesson.mastery.pass?'PASS':'RETRY'));for(const r of a.results)lines.push(r.id+': '+JSON.stringify(r.response)+'; correct: '+r.correct);}
+  for(const [i,a] of state.masteryAttempts.entries()){lines.push('Mastery attempt '+(i+1)+': '+a.score+'/'+a.total+' (form '+(a.form+1)+'); no hints available; '+(a.score>=lesson.mastery.pass?'PASS':'RETRY'));for(const r of a.results){const q=lesson.mastery.forms[a.form]?.find(q=>q.id===r.id);lines.push(q?.prompt||r.id,...(q?.displayMath?[q.displayMath]:[]),r.id+': '+JSON.stringify(r.response)+'; correct: '+r.correct);}}
   lines.push('Final reflection: '+(state.reflection||'(blank)'),'Final writing sample opened: '+(state.writingSamples||[]).includes('final'),'Student responses are not transmitted. Submit this report through your teacher’s class assignment.');
   return lines.join('\n');
 }

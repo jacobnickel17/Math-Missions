@@ -190,3 +190,25 @@ test('chapter writing models are optional, preserve saved reasoning and appear i
  const {report}=await import('../assets/story-model.js');assert.match(report(lesson,{title:'The Signal Window'},document.saved()),/Writing sample opened: true/);
 });
 
+test('budget practice asks students to solve and displays the inequality they build',async()=>{
+ const document=await app(freshStory(lesson),'plain-inequality');
+ const q=lesson.stages[0].questions.find(q=>q.id==='window-cap');
+ const card=document.getElementById('game').find(e=>e.className==='question'&&e.textContent.includes(q.prompt));
+ assert.match(card.textContent,/Solve the inequality for x/);assert.match(card.textContent,/18 \+ 6x ≤ 90/);
+ assert.doesNotMatch(card.textContent,/over the real numbers|Number in the solution|Solution statement/);
+ assert.match(card.textContent,/Choose the sign/);assert.match(card.textContent,/Enter the number/);
+ const input=document.getElementById(q.id),select=document.getElementById(q.id+'-Solution-statement');
+ const check=()=>card.find(e=>e.tagName==='button'&&e.textContent==='Check answer').onclick();
+ assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x □ □');
+ select.value='<=';select.onchange();input.value='10';input.oninput();
+ assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x ≤ 10');
+ check();assert.match(card.querySelector('.feedback').textContent,/Not yet/);
+ input.value='12';input.oninput();select.value='>=';select.onchange();check();assert.match(card.querySelector('.feedback').textContent,/Not yet/);
+ select.value='<=';select.onchange();assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x ≤ 12');
+ check();assert.match(card.querySelector('.feedback').textContent,/Correct/);
+ assert.deepEqual(document.saved().responses[q.id],{boundary:'12',operator:'<='});
+ const {report}=await import('../assets/story-model.js');assert.match(report(lesson,{title:'The Signal Window'},document.saved()),/18 \+ 6x ≤ 90/);
+ const restored=await app(document.saved(),'plain-inequality-reload');
+ assert.equal(restored.getElementById(q.id).value,'12');assert.equal(restored.getElementById(q.id+'-Solution-statement').value,'<=');
+});
+
