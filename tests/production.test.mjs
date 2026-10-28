@@ -13,7 +13,6 @@ test('production releases Vault, Ledger, Signal Window, and Blueprint while excl
  await access(new URL('dist/units-3-4/lost-blueprint/index.html',root));
  await access(new URL('dist/content/lessons/blackout-ledger.json',root));
  await access(new URL('dist/content/lessons/signal-window.json',root));
- await assert.rejects(access(new URL('dist/content/lessons/signal-window.json',root)));
  await assert.rejects(access(new URL('dist/content/lessons/signal-checkpoint.json',root)));
  const teacher=JSON.parse(await readFile(new URL('dist/content/teacher-catalog.json',root),'utf8'));
  assert.equal(teacher.missions.find(m=>m.id==='signal-window').status,'published');
