@@ -40,7 +40,7 @@ The final reflection is teacher-reviewed. Ledger: defend a plan with costs, reve
 
 ## Differentiation
 Support: read the story aloud, underline units, color-code fixed fee versus variable rate, and compare only two table rows before the full rule. For inequalities, physically test points to the left/right and say whether equality is allowed.
-Extend: have students propose two feasible showcase schedules with different objectives; change one price or reserve and explain which decision changes. Students can also redesign an ending with an honest record of school life for the next crew.
+Extend: have students propose two feasible showcase schedules with different objectives; change one price or time limit and explain which decision changes. Students can also redesign an ending with an honest record of school life for the next crew.
 
 ## Progress and submission
 These new missions save responses, checked answers, hints, reasoning and mastery attempts in localStorage by mission ID and content revision. They do not alter Vault's storage. Unsupported storage produces a notice to export before leaving. A content revision change starts a new local attempt. Work does not transfer automatically across devices.
@@ -53,7 +53,7 @@ Download mission report works during or after a mission. It includes responses, 
 - Unsold inventory: 33 printed and 28 sold yields $54.50.
 - Window: 50 − 4x ≥ 14 gives x ≤ 9; do not accept x ≥ 9.
 - Number line: x < 9 uses an open circle and left shading.
-- All constraints: whole sessions 6, 7, 8, 9; max reach 9, minimum cost 6.
+- All rules: whole game rounds 6, 7, 8, 9; most rounds 9, lowest-cost choice 6.
 - Verify draft banners, progress refresh, alternate mastery, report downloads and narrow-screen usability before approving.
 
 ## Full answer key
@@ -96,37 +96,38 @@ Download mission report works during or after a mission. It includes responses, 
 
 ### The Signal Window
 
-#### More than one solution
-- guided: **18 + 6x ≤ 90** — 18 + 6x ≤ 90 allows cheaper plans as well as the plan that spends exactly $90.
-- practice: **x <= 12** — All real numbers less than or equal to 12 are solutions. 6x ≤ 72 gives x ≤ 12. Twelve sessions are included.
-- unlock: **v > 8, so the smallest whole-number visitor count is 9.** — “More than” excludes 8. Visitors are whole people, so 9 is the smallest possible count.
+Current scenario: class Game Day. Snacks cost $18; prizes cost $6 per round; budget $90. Each round takes 4 minutes out of 50, with at least 14 minutes for cleanup.
 
-#### Draw the signal window
-- guided: **Closed circle at 12; shade left** — All real numbers less than or equal to 12 are solutions. Filled circle at 12; shade left. 12 is a solution.
-- practice: **Closed circle at 5; shade right** — All real numbers greater than or equal to 5 are solutions. Filled circle at 5; shade right. 5 is a solution.
-- unlock: **Open circle at 9; shade left** — All real numbers less than 9 are solutions. Open circle at 9; shade left. 9 is not a solution.
+#### Stay within the budget
+- guided: **18 + 6x ≤ 90** — 18 + 6x ≤ 90 means the snack and prize costs stay at $90 or less.
+- practice: **x <= 12** — Subtract 18: 6x ≤ 72. Divide by 6: x ≤ 12. You can afford up to 12 rounds.
+- unlock: **v > 8: the smallest possible number of students is 9.** — “More than 8” leaves out 8. The smallest whole number that works is 9.
 
-#### The sign-flip trap
-- guided: **x <= 9** — All real numbers less than or equal to 9 are solutions. −4x ≥ −36 gives x ≤ 9. At x = 9, exactly 14 points remain.
-- practice: **Dividing by −4 must reverse ≥ to ≤; x = 10 also fails the original limit.** — Only multiplication/division by a negative reverses order. At 10 sessions, 50 − 40 = 10, below the required 14.
-- unlock: **x < 9** — All real numbers less than 9 are solutions. −5x > −45 gives x < 9 after dividing by −5. Nine leaves exactly 17, so it does not work.
+#### Show answers on a number line
+- guided: **12, filled, left** — Fill the circle at 12 and shade left. Twelve and smaller numbers work.
+- practice: **5, filled, right** — Fill the circle at 5 and shade right. Five minutes and longer times work.
+- unlock: **9, open, left** — Use an open circle at 9 and shade left. Nine is not allowed; shorter times work.
 
-#### One plan, every constraint
-- guided: **6, 7, 8, 9** — Every feasible count is at least 6 and at most 9. The budget does not remove any of those four.
-- practice: **9** — 9 satisfies the minimum, budget and reserve. 10 fails the energy reserve.
-- unlock: **6 sessions: $54 cost and 26 energy points left; all limits satisfied.** — 6 is the smallest feasible count and each additional session costs $6. Zero misses the minimum; 9 costs $72.
+#### Solve with a negative number
+- guided: **x <= 9** — −4x ≥ −36 gives x ≤ 9 after dividing by −4 and flipping the sign. Play 9 rounds or fewer.
+- practice: **Dividing by −4 should flip ≥ to ≤. Ten rounds leave too little cleanup time.** — Dividing by a negative flips the sign. Ten rounds use 40 minutes and leave only 10, so x ≥ 9 cannot be right.
+- unlock: **x < 9** — Subtract 62: −5x > −45. Divide by −5 and flip: x < 9. Nine rounds leave exactly 17 minutes, so 9 is not allowed.
 
-#### Mastery form 1
-1. **x <= 10** — All real numbers less than or equal to 10 are solutions. 5x ≤ 50 gives x ≤ 10; equality is allowed.
-2. **Open circle at 4; shade right** — All real numbers greater than 4 are solutions. Open circle at 4; shade right. 4 is not a solution.
-3. **x <= 6** — All real numbers less than or equal to 6 are solutions. −6x ≥ −36 becomes x ≤ 6 after dividing by −6.
+#### Choose a plan that works
+- guided: **6, 7, 8, 9** — 6, 7, 8, and 9 meet all three rules.
+- practice: **9** — Nine rounds meet every rule. Ten would leave too little cleanup time.
+- unlock: **6 rounds: $54 total and 26 minutes left for cleanup.** — Six is the smallest number that meets every rule. Each extra round adds $6.
+
+#### Mastery form A
+1. **x <= 10** — The answer is x ≤ 10. 5x ≤ 50 gives x ≤ 10; equality is allowed.
+2. **4, open, right** — The answer is t > 4. Open circle at 4; shade right. 4 is not a solution.
+3. **x <= 6** — The answer is x ≤ 6. −6x ≥ −36 becomes x ≤ 6 after dividing by −6.
 4. **6** — The common whole-number choices are 4, 5, 6. Maximum: 6.
 5. **Exclude 7; the valid list is 3, 4, 5, 6.** — The ≤ includes 3, but < excludes 7.
 
-#### Mastery form 2
-1. **x <= 12** — All real numbers less than or equal to 12 are solutions. 4x ≤ 48 gives x ≤ 12. Twelve is included.
-2. **Closed circle at 7; shade right** — All real numbers greater than or equal to 7 are solutions. Filled circle at 7; shade right. 7 is a solution.
-3. **x < 8** — All real numbers less than 8 are solutions. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.
-4. **7** — Feasible whole counts are 5, 6, 7. Eight fails the strict reserve limit.
-5. **5 sessions, because it is the smallest feasible count.** — With positive per-session cost and a fixed setup, choose the smallest feasible count: 5.
-
+#### Mastery form B
+1. **x <= 12** — The answer is x ≤ 12. 4x ≤ 48 gives x ≤ 12. Twelve is included.
+2. **7, filled, right** — The answer is t ≥ 7. Filled circle at 7; shade right. 7 is a solution.
+3. **x < 8** — The answer is x < 8. −5x > −40 gives x < 8 after dividing by −5. Eight is excluded.
+4. **7** — The whole numbers that work are 5, 6, and 7. Eight is not allowed because x < 8.
+5. **5 rounds, because it is the smallest allowed number.** — Choose 5 rounds. It meets the rules and costs less than 6 or 7 rounds.

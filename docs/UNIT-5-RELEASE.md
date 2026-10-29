@@ -2,6 +2,8 @@
 
 Status: STAGED for teacher review only. The proposed change lives on release/unit-5-signal-window. Do not merge or deploy until the teacher approves the math and experience.
 
+Current student scenario and wording: [Class Game Day](GAME-DAY-CONTEXT.md). Snacks/prizes replace demo rentals; minutes for games/cleanup replace simulated energy points. All mathematical answers are unchanged.
+
 For the current evidence, remaining device/Canvas checks, cloud preview and publication blockers, read [UNIT-5-VERIFICATION.md](UNIT-5-VERIFICATION.md). The first two examples now use six guided steps and four steps with reduced support; they are no longer passive worked lists. Negative-coefficient inequalities align with Grade 7 7.EEI.B.4c; combined constraints/optimization add application beyond that core expectation.
 
 ## Proposed student experience
@@ -21,7 +23,7 @@ For the current evidence, remaining device/Canvas checks, cloud preview and publ
 2. Check the first chapter's worked example as a student new to inequalities. Ensure the instructions are explicit enough about interpreting a solution *set*. Decide whether more step-by-step interactive scaffolding is required before approving.
 3. Check number-line placement on both laptop and school Chromebook: x ≤ 12 closed/left; t ≥ 5 closed/right; t < 9 open/left. Verify meaning selection is required and keyboard controls work.
 4. Check negative division: 50 − 4x ≥ 14 yields x ≤ 9, while 62 − 5x > 17 yields x < 9. Test boundary and one value beyond it.
-5. Check combined whole-session choices 6, 7, 8, 9; maximum 9 and minimum-cost 6, $54.
+5. Check combined whole-round choices 6, 7, 8, 9; maximum 9 and lowest-cost choice 6, $54.
 6. Complete the 5-item mastery and alternate form. Confirm no hints and verified solution graphs hidden until submission; teacher reviews reasoning, not just auto-score.
 7. Refresh in the middle of a lesson; confirm saved progress. Complete and download the text report. Do not put student names or private data in the public repository.
 8. Review the student homepage, /missions/, and the direct assignment link on a student Chromebook. The teacher-only Codespaces preview is not an appropriate student URL.

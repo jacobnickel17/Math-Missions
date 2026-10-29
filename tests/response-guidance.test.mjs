@@ -56,3 +56,15 @@ test('sample views can be recorded and mastery writing has no sample disclosure'
  const details=box.querySelectorAll('details')[0];details.open=true;details.ontoggle();assert.equal(opened,1);
  const independent=renderWritingSupport(root,masteryWriting,'mastery-support');assert.equal(independent.querySelectorAll('details').length,0);
 });
+
+test('Game Day uses short teaching and one coherent money/time context',async()=>{
+ const l=JSON.parse(await readFile(new URL('../content/lessons/signal-window.json',import.meta.url)));
+ assert.match(l.stages[0].story,/Snacks cost \$18/);assert.match(l.stages[0].story,/prize.*\$6/i);
+ assert.match(l.stages[2].story,/50 minutes/);assert.match(l.stages[2].story,/14 minutes.*cleanup/);
+ const studentText=JSON.stringify(l,(k,v)=>['id','math','answer','calculation'].includes(k)?undefined:v);
+ assert.doesNotMatch(studentText,/demo session|simulator|energy reserve|over the real numbers|real-number solution|state the domain/i);
+ for(const s of l.stages){assert.ok(s.teach.join(' ').split(/\s+/).length<=105,s.id+' teaching should stay brief');assert.ok(s.teach.every(p=>p.length<=200),s.id+' paragraph too long');}
+ assert.match(storyGuidance['signal-window'].translate.sample,/Ten rounds cost/);
+ assert.match(storyGuidance['signal-window'].final.sample,/14 minutes/);
+ assert.equal(18+6*6,54);assert.equal(50-4*6,26);assert.equal(18+6*9,72);assert.equal(50-4*9,14);
+});

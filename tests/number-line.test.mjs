@@ -194,7 +194,7 @@ test('budget practice asks students to solve and displays the inequality they bu
  const document=await app(freshStory(lesson),'plain-inequality');
  const q=lesson.stages[0].questions.find(q=>q.id==='window-cap');
  const card=document.getElementById('game').find(e=>e.className==='question'&&e.textContent.includes(q.prompt));
- assert.match(card.textContent,/Solve the inequality for x/);assert.match(card.textContent,/18 \+ 6x ≤ 90/);
+ assert.match(card.textContent,/Solve the inequality for x/);assert.match(card.textContent,/18 \+ 6x ≤ 90/);assert.match(card.textContent,/Game Day snacks/);
  assert.doesNotMatch(card.textContent,/over the real numbers|Number in the solution|Solution statement/);
  assert.match(card.textContent,/Choose the sign/);assert.match(card.textContent,/Enter the number/);
  const input=document.getElementById(q.id),select=document.getElementById(q.id+'-Solution-statement');
