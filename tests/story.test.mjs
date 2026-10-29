@@ -10,11 +10,18 @@ const catalog=JSON.parse(await readFile(new URL('../content/catalog.json',import
 const response=q=>q.type==='number'?String(q.answer):q.type==='choice'?q.answer:Object.fromEntries(Object.entries(q.answer).map(([k,v])=>[k,k==='boundary'?String(v):v]));
 
 test('two full story lessons have independent checks, alternate forms, and correct numeric verification',()=>{
- for(const lesson of [ledger,window]){assert.deepEqual(validateStory(lesson),[]);assert.equal(lesson.stages.length,4);assert.equal(allQuestions(lesson).length,22);for(const q of allQuestions(lesson)){assert.equal(answered(q,response(q)),true,q.id);assert.equal(correct(q,response(q)),true,q.id);}}
+ for(const lesson of [ledger,window]){assert.deepEqual(validateStory(lesson),[]);assert.equal(lesson.stages.length,4);assert.equal(allQuestions(lesson).length,lesson.id==='signal-window'?32:22);for(const q of allQuestions(lesson)){assert.equal(answered(q,response(q)),true,q.id);assert.equal(correct(q,response(q)),true,q.id);}}
 });
-test('release includes Ledger while Window remains draft and unassigned',()=>{
+test('release includes Ledger and Signal Window as distinct assignments',()=>{
  assert.deepEqual(validateCatalog(catalog),[]);
- for(const id of [ledger.id,window.id]){const m=catalog.missions.find(m=>m.id===id);const released=id===ledger.id;assert.equal(m.status,released?'published':'draft');assert.equal(missionUrl(m),'story.html?id='+id);assert.equal(publishedMissions(catalog).some(m=>m.id===id),released);assert.equal(catalog.assignments.some(a=>a.missionIds.includes(id)),released);}
+ for(const id of [ledger.id,window.id]){
+  const m=catalog.missions.find(m=>m.id===id);
+  assert.equal(m.status,'published');
+  assert.equal(missionUrl(m),'story.html?id='+id);
+  assert.equal(publishedMissions(catalog).some(x=>x.id===id),true);
+  assert.equal(catalog.assignments.some(a=>a.missionIds.includes(id)),true);
+ }
+ assert.equal(catalog.assignments.find(a=>a.id==='signal-window').missionIds[0],window.id);
  assert.equal(ledger.nextMission,window.id);
 });
 test('linear inequalities reverse only for a negative coefficient and include fractional boundaries',()=>{
@@ -48,7 +55,7 @@ test('a complete run survives JSON storage and generates evidence plus first att
   let state=freshStory(lesson);
   for(const [i,stage] of lesson.stages.entries()){
    state.stage=i;
-   for(const q of stage.questions){state.responses[q.id]=response(q);state.checks[q.id]=true;state.attempts.push({id:q.id,response:response(q),correct:true});}
+   for(const q of [...(stage.exampleSteps||[]),...stage.questions]){state.responses[q.id]=response(q);state.checks[q.id]=true;state.attempts.push({id:q.id,response:response(q),correct:true});}
    state.notes[stage.id]='I checked the model, units, boundary, and the adjacent values before choosing.';
    assert.ok(canAdvance(stage,state));state.unlocked=i+1;state=JSON.parse(JSON.stringify(state));
   }
@@ -93,3 +100,4 @@ test('graph answers require solution-set meaning as well as a correct drawing',(
  assert.equal(solutionMeaning('>=',5),'All real numbers greater than or equal to 5.');
  const bad=structuredClone(window);bad.stages[1].questions[1].answer.meaning='>';assert.ok(validateStory(bad).some(e=>e.includes('meaning')));
 });
+

@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.actor == 'jacobnickel17'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,12 +45,22 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Recheck publication controls after teacher approval
+        run: node scripts/release-preflight.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Deploy teacher-reviewed artifact
         id: deployment
         uses: actions/deploy-pages@v4
+

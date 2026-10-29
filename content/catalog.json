@@ -64,15 +64,15 @@
       "id": "signal-window",
       "title": "The Signal Window",
       "unit": "Unit 5 · Mission 3",
-      "summary": "Recover the rest of the archive: solve and graph inequalities, reverse negative division, and combine real-world limits.",
+      "summary": "Plan a class Game Day. Use inequalities to stay within the snack-and-prize budget and leave time for cleanup.",
       "skills": [
-        "Translate inequalities",
-        "Solve and graph solution sets",
-        "Negative sign reversal",
-        "Feasible whole-number plans"
+        "Write inequalities",
+        "Solve and graph inequalities",
+        "Divide by a negative number",
+        "Choose a plan that works"
       ],
       "minutes": 60,
-      "status": "draft",
+      "status": "published",
       "arcId": "signal-zero",
       "type": "story",
       "lesson": "content/lessons/signal-window.json"
@@ -114,6 +114,15 @@
         "blackout-ledger"
       ],
       "nextStep": "Submit your report, then wait for your teacher to release the next mission."
+    },
+    {
+      "id": "signal-window",
+      "title": "Unit 5 · The Signal Window",
+      "instructions": "Begin this inequality mission after The Blackout Ledger or when your teacher assigns it. Complete four chapters with guided notes, number-line graphs, a practice challenge, and a five-question mastery check. Download your mission report and submit it through Canvas.",
+      "missionIds": [
+        "signal-window"
+      ],
+      "nextStep": "Submit your report in Canvas. Review your explanations and any missed mastery questions with your teacher."
     },
     {
       "id": "units-3-4-extension",

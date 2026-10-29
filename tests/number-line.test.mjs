@@ -17,6 +17,7 @@ class Element {
   getAttribute(k){return this.attributes[k];}
   remove(){this.parent.children=this.parent.children.filter(e=>e!==this);}
   focus(){}
+  click(){if(this.tagName==='a')this.ownerDocument.lastDownload={filename:this.download,href:this.href};}
   getBoundingClientRect(){return {left:0,width:720};}
   querySelector(selector){return this.find(e=>selector.startsWith('.')?e.className.split(' ').includes(selector.slice(1)):e.tagName===selector);}
   find(match){for(const e of this.children){if(match(e))return e;const result=e.find(match);if(result)return result;}return null;}
@@ -64,21 +65,22 @@ test('rendered SVG has labeled ticks, positioned circles, proper fill and access
 });
 const load=async path=>JSON.parse(await readFile(new URL('../'+path,import.meta.url),'utf8'));
 const lesson=await load('content/lessons/signal-window.json'),catalog=await load('content/catalog.json');
-async function app(saved,variant){
+async function app(saved,variant,storageFails=false){
  const document=doc();
  for(const id of ['title','storage','draft','download','stages','game']){const el=document.createElement('div');el.id=id;document.body.append(el);}
  const storage=new Map([['math-missions:story:signal-window',JSON.stringify(saved)]]);
  globalThis.document=document;globalThis.location={search:'?id=signal-window'};
- globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
+ globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>{if(storageFails)throw Error('Storage blocked');storage.set(k,v);}};
  globalThis.Option=class extends Element{constructor(text,value){super('option',document);this.textContent=text;this.value=value;}};
  globalThis.fetch=async path=>({ok:true,json:async()=>structuredClone(path.includes('catalog')?catalog:lesson)});
  await import('../assets/story.js?graph-test='+variant);
  document.getElementById('game').find(e=>e.tagName==='button').onclick();
+ document.saved=()=>JSON.parse(storage.get('math-missions:story:signal-window'));
  return document;
 }
 test('graph builder click, slider, endpoint buttons and verified-answer lifecycle work together',async()=>{
  const saved=freshStory(lesson);saved.stage=1;saved.unlocked=1;
- const document=await app(saved,'formative'),question=document.body.find(e=>e.className==='question');
+ const document=await app(saved,'formative'),question=document.getElementById('window-graph-cap').parent.parent.parent;
  const byText=text=>question.find(e=>e.tagName==='button'&&e.textContent===text);
  const input=document.getElementById('window-graph-cap'),verified=question.querySelector('.verified-graph');
  assert.match(question.querySelector('.solution-meaning').textContent,/Which real numbers are solutions/);
@@ -108,3 +110,105 @@ test('mastery solution graphs stay hidden until the full mastery form is submitt
  assert.match(root.textContent,/Score: 5\/5/);
  assert.equal(root.all(e=>e.className==='verified-graph'&&e.children.length>0).length,3);
 });
+
+test('interactive examples reveal one step, reject errors, track hints and resume after refresh',async()=>{
+ let document=await app(freshStory(lesson),'example-first');
+ const root=()=>document.getElementById('game');
+ const step=()=>root().find(e=>e.className==='card teaching').find(e=>e.className==='question');
+ assert.match(step().textContent,/Step 1/);assert.doesNotMatch(root().textContent,/Step 2 ·/);
+ const choose=(q,value)=>q.find(e=>e.tagName==='input'&&e.value===value).onchange();
+ const check=()=>step().find(e=>e.tagName==='button'&&e.textContent==='Check answer').onclick();
+ choose(step(),'minimum');check();assert.match(step().textContent,/Not yet/);assert.doesNotMatch(root().textContent,/Step 2 ·/);
+ const hint=step().querySelector('details');hint.open=true;hint.ontoggle();
+ choose(step(),'cap');check();assert.match(step().textContent,/Step 2/);
+ const saved=document.saved();assert.equal(saved.attempts[0].correct,false);assert.ok(saved.hints.includes('tickets-model'));
+ document=await app(saved,'example-resume');assert.match(step().textContent,/Step 2/);
+ choose(step(),'subtract');check();assert.match(step().textContent,/Step 3/);
+ let input=document.getElementById('tickets-subtract');input.value='36';input.oninput();check();
+ input=document.getElementById('tickets-divide');input.value='9';input.oninput();check();
+ choose(step(),'yes');check();choose(step(),'whole');check();
+ assert.match(root().textContent,/Example complete/);assert.equal(document.saved().checks['tickets-domain'],true);
+ const output=(await import('../assets/story-model.js')).report(lesson,{title:'The Signal Window'},document.saved());
+ assert.match(output,/first check correct: false; hint opened: true/);
+ assert.match(output,/Step 6/);
+});
+
+test('a student can complete both examples and all chapters through the controls, then both no-hint mastery forms',async()=>{
+ const document=await app(freshStory(lesson),'full-student-flow');
+ const root=()=>document.getElementById('game');
+ const click=text=>root().find(e=>e.tagName==='button'&&e.textContent===text).onclick();
+ const answer=q=>{
+  const section=root().find(e=>e.className==='question'&&e.textContent.includes(q.prompt));assert.ok(section,q.id);
+  if(q.type==='choice')section.find(e=>e.tagName==='input'&&e.value===q.answer).onchange();
+  else{
+   const input=document.getElementById(q.id);input.value=String(q.type==='number'?q.answer:q.answer.boundary);input.oninput();
+   if(q.type==='inequality'){const select=document.getElementById(q.id+'-Solution-statement');select.value=q.answer.operator;select.onchange();}
+   if(q.type==='graph'){
+    for(const [suffix,value] of [['Meaning',q.answer.meaning],['Direction',q.answer.direction],['Circle-type',q.answer.closed?'closed':'open']]){const select=document.getElementById(q.id+'-'+suffix);select.value=value;select.onchange();}
+   }
+  }
+  if(q.phase!=='mastery')section.find(e=>e.tagName==='button'&&e.textContent==='Check answer').onclick();
+ };
+ for(const [i,stage] of lesson.stages.entries()){
+  for(const q of [...(stage.exampleSteps||[]),...stage.questions])answer(q);
+  const notes=document.getElementById('reasoning');notes.value='I verified the boundary, direction, domain and all constraints using substitution.';notes.oninput();
+  click('Unlock the next story clue');assert.match(root().textContent,/Recovered broadcast fragment/);
+  click(i===3?'Begin independent mastery':'Continue to next chapter');
+ }
+ for(const form of [0,1]){
+  assert.equal(root().all(e=>e.tagName==='details').length,0);assert.doesNotMatch(root().textContent,/Correct solution graph/);
+  for(const q of lesson.mastery.forms[form])answer(q);
+  click('Submit mastery check');assert.match(root().textContent,/Score: 5\/5/);
+  if(form===0)click('Try the alternate mastery form');
+ }
+ const saved=document.saved();assert.equal(saved.masteryAttempts.length,2);assert.equal(saved.hints.length,0);
+ const reflection=document.getElementById('final-reflection');reflection.value='Choose 6 sessions to minimize cost: $54 and 26 energy points, meeting every bound.';reflection.oninput();
+ const {report}=await import('../assets/story-model.js');const output=report(lesson,{title:'The Signal Window'},document.saved());
+ assert.match(output,/no hints available; PASS/);assert.match(output,/Choose 6 sessions/);
+ const original=URL.createObjectURL;let downloaded;
+ URL.createObjectURL=blob=>{downloaded=blob;return original(blob);};
+ try{click('Download completed mission report');}finally{URL.createObjectURL=original;}
+ assert.equal(document.lastDownload.filename,'signal-window-mission-report.txt');
+ assert.match(await downloaded.text(),/Mastery attempt 2: 5\/5/);
+});
+
+test('storage denial keeps the lesson usable and displays the report warning',async()=>{
+ const document=await app(freshStory(lesson),'blocked-storage',true);
+ assert.match(document.getElementById('storage').textContent,/Storage unavailable/);
+ assert.match(document.getElementById('game').textContent,/Step 1/);
+ assert.equal(document.getElementById('download').disabled,false);
+});
+
+test('chapter writing models are optional, preserve saved reasoning and appear in the report',async()=>{
+ const saved=freshStory(lesson);saved.notes.translate='My saved explanation with mathematical evidence.';
+ const document=await app(saved,'writing-support');
+ const support=document.getElementById('reasoning-support');assert.ok(support);
+ assert.equal(document.getElementById('reasoning').value,saved.notes.translate);
+ const details=support.querySelector('details');details.open=true;details.ontoggle();
+ assert.equal(document.getElementById('reasoning').value,saved.notes.translate);
+ assert.ok(document.saved().writingSamples.includes('translate'));
+ const {report}=await import('../assets/story-model.js');assert.match(report(lesson,{title:'The Signal Window'},document.saved()),/Writing sample opened: true/);
+});
+
+test('budget practice asks students to solve and displays the inequality they build',async()=>{
+ const document=await app(freshStory(lesson),'plain-inequality');
+ const q=lesson.stages[0].questions.find(q=>q.id==='window-cap');
+ const card=document.getElementById('game').find(e=>e.className==='question'&&e.textContent.includes(q.prompt));
+ assert.match(card.textContent,/Solve the inequality for x/);assert.match(card.textContent,/18 \+ 6x ≤ 90/);assert.match(card.textContent,/Game Day snacks/);
+ assert.doesNotMatch(card.textContent,/over the real numbers|Number in the solution|Solution statement/);
+ assert.match(card.textContent,/Choose the sign/);assert.match(card.textContent,/Enter the number/);
+ const input=document.getElementById(q.id),select=document.getElementById(q.id+'-Solution-statement');
+ const check=()=>card.find(e=>e.tagName==='button'&&e.textContent==='Check answer').onclick();
+ assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x □ □');
+ select.value='<=';select.onchange();input.value='10';input.oninput();
+ assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x ≤ 10');
+ check();assert.match(card.querySelector('.feedback').textContent,/Not yet/);
+ input.value='12';input.oninput();select.value='>=';select.onchange();check();assert.match(card.querySelector('.feedback').textContent,/Not yet/);
+ select.value='<=';select.onchange();assert.equal(card.querySelector('.inequality-readback').textContent,'Your answer: x ≤ 12');
+ check();assert.match(card.querySelector('.feedback').textContent,/Correct/);
+ assert.deepEqual(document.saved().responses[q.id],{boundary:'12',operator:'<='});
+ const {report}=await import('../assets/story-model.js');assert.match(report(lesson,{title:'The Signal Window'},document.saved()),/18 \+ 6x ≤ 90/);
+ const restored=await app(document.saved(),'plain-inequality-reload');
+ assert.equal(restored.getElementById(q.id).value,'12');assert.equal(restored.getElementById(q.id+'-Solution-statement').value,'<=');
+});
+

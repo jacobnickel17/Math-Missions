@@ -1,6 +1,7 @@
 import {validateCatalog,missionUrl} from './model.js';
 import {validateStory,freshStory,correct,canAdvance,gradeMastery,report,solutionMeaning} from './story-model.js';
 import {graphResponse,graphScale,graphVariable,renderNumberLine} from './number-line.js';
+import {storyGuidance,renderWritingSupport} from './response-guidance.js';
 
 const $=id=>document.getElementById(id);
 const add=(p,tag,text='',className='')=>{const el=document.createElement(tag);el.textContent=text;if(className)el.className=className;p.append(el);return el;};
@@ -22,10 +23,29 @@ function controls(q,container,feedback,verified) {
     for(const o of q.choices){const label=add(group,'label','','choice');const input=document.createElement('input');input.type='radio';input.name=q.id;input.value=o.id;input.checked=response===o.id;input.onchange=()=>changed(o.id);label.append(input);add(label,'span',o.text);}
     return;
   }
+  if(q.type==='inequality'){
+    const variable=graphVariable(q);
+    const value=response&&typeof response==='object'?{...response}:{boundary:'',operator:''};
+    add(container,'p','Solve on paper. Then build your answer below.','minor');
+    const row=add(container,'div','','inequality-answer');row.setAttribute('role','group');row.setAttribute('aria-label','Your answer as an inequality');
+    const symbolBox=add(row,'div','','answer-piece');
+    const symbolLabel=add(symbolBox,'label','Choose the sign');symbolLabel.htmlFor=q.id+'-Solution-statement';
+    const symbolRow=add(symbolBox,'div','','symbol-row');add(symbolRow,'span',variable,'equation');
+    const symbol=add(symbolRow,'select');symbol.id=q.id+'-Solution-statement';symbol.add(new Option('Sign…',''));
+    for(const [op,label] of [['<','< (less than)'],['<=','≤ (less than or equal to)'],['>','> (greater than)'],['>=','≥ (greater than or equal to)']])symbol.add(new Option(label,op));
+    symbol.value=value.operator||'';
+    const numberBox=add(row,'div','','answer-piece');const label=add(numberBox,'label','Enter the number');label.htmlFor=q.id;
+    const input=add(numberBox,'input');input.id=q.id;input.type='text';input.inputMode='decimal';input.placeholder='Number';input.value=value.boundary??'';
+    const preview=add(container,'p','','inequality-readback');preview.setAttribute('aria-live','polite');
+    const paint=()=>{const signs={'<':'<','<=':'≤','>':'>','>=':'≥'};preview.textContent='Your answer: '+variable+' '+(signs[value.operator]||'□')+' '+(String(value.boundary??'').trim()||'□');};
+    const update=()=>{changed({...value});paint();};
+    symbol.onchange=()=>{value.operator=symbol.value;update();};input.oninput=()=>{value.boundary=input.value;update();};paint();
+    return;
+  }
   const row=add(container,'div','','answer-row');
   const input=document.createElement('input');input.id=q.id;input.type='text';input.inputMode='decimal';
   input.placeholder='Number only, without units';
-  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):q.type==='graph'?'Number at the circle':'Number in the solution');label.htmlFor=q.id;
+  const label=add(row,'label',q.type==='number'?(q.answerLabel||'Answer'):'Number at the circle');label.htmlFor=q.id;
   input.value=q.type==='number'?(response??''):(response?.boundary??'');row.append(input);
   if(q.type==='number'){input.oninput=()=>changed(input.value);return;}
   response=response&&typeof response==='object'?{...response}:{boundary:'',operator:'',direction:'',closed:null};
@@ -40,8 +60,7 @@ function controls(q,container,feedback,verified) {
   }});
   const update=()=>{refreshMeaning();changed({...response});if(q.type==='graph')paint();};
   input.oninput=()=>{response.boundary=input.value;if(slider&&input.value.trim()&&Number.isFinite(Number(input.value)))slider.value=input.value;update();};
-  if(q.type==='inequality')select('Solution statement',[['<','x < the entered number'],['<=','x ≤ the entered number'],['>','x > the entered number'],['>=','x ≥ the entered number']],response.operator,v=>{response.operator=v;update();});
-  else{
+  {
     if(q.requireMeaning){
       const meanings=add(container,'div','','solution-meaning');
       container.insertBefore(meanings,row);
@@ -69,10 +88,11 @@ function controls(q,container,feedback,verified) {
     paint();
   }
 }
-function question(q,parent,mastery=false) {
+function question(q,parent,mastery=false,onCorrect) {
   const card=add(parent,'section','','question');
   add(card,'p',mastery?'Independent mastery':q.phase==='unlock'?'Independent checkpoint':q.phase==='guided'?'Guided check':'Practice','phase');
   add(card,'h3',q.prompt);
+  if(q.displayMath)add(card,'p',q.displayMath,'equation');
   const controlBox=add(card,'div');
   const feedback=add(card,'p','','feedback');feedback.setAttribute('role','status');
   const verified=add(card,'div','','verified-graph');
@@ -80,8 +100,9 @@ function question(q,parent,mastery=false) {
   if(!mastery) {
     button(card,'Check answer',()=>{
       const result=correct(q,state.responses[q.id]);state.attempts.push({id:q.id,correct:result,response:structuredClone(state.responses[q.id]??''),time:new Date().toISOString()});
-      state.checks[q.id]=result;save();feedback.textContent=result?'Correct. '+q.explanation:'Not yet. Check which numbers are solutions, whether the number at the circle is included, and which way the shading should go.';feedback.className='feedback'+(result?' good':'');
+      state.checks[q.id]=result;save();feedback.textContent=result?'Correct. '+q.explanation:'Not yet. Recheck this step and try again.';feedback.className='feedback'+(result?' good':'');
       verified.replaceChildren();if(result)verifiedGraph(verified,q);
+      if(result&&onCorrect)onCorrect();
     });
     if(q.phase!=='unlock'){
       const hint=add(card,'details');add(hint,'summary','Show hint');add(hint,'p',q.hint);
@@ -96,15 +117,32 @@ function stageScreen(index) {
   add(root,'h2',stage.title);add(root,'p',stage.story,'story-text');
   const teaching=add(root,'section','','card teaching');add(teaching,'h3','New move');
   for(const p of stage.teach)add(teaching,'p',p);
-  add(teaching,'h3','Worked example');const ol=add(teaching,'ol','','worked');for(const s of stage.worked)add(ol,'li',s);
+  if(stage.exampleSteps){
+    add(teaching,'h3',index===0?'Build an example together':'Try an example with less support');add(teaching,'p',stage.exampleIntro);
+    const progress=add(teaching,'p');progress.setAttribute('role','status');
+    const steps=add(teaching,'div');
+    const draw=()=>{
+      steps.replaceChildren();
+      const pending=stage.exampleSteps.findIndex(q=>!state.checks[q.id]||!correct(q,state.responses[q.id]));
+      progress.textContent=pending<0?'Example complete. Now apply the ideas below.':'Step '+(pending+1)+' of '+stage.exampleSteps.length;
+      stage.exampleSteps.forEach((q,i)=>{
+        if(pending>=0&&i>pending)return;
+        if(pending<0||i<pending){const done=add(steps,'section','','example-complete');add(done,'p','✓ '+q.prompt);add(done,'p',q.explanation);button(done,'Revisit this step',()=>{for(const later of stage.exampleSteps.slice(i))delete state.checks[later.id];save();draw();});}
+        else question(q,steps,false,()=>{draw();const active=steps.querySelector('.question input,.question select');active?.focus();});
+      });
+      if(pending<0){const summary=add(steps,'details');add(summary,'summary','Review the full worked solution');const ol=add(summary,'ol','','worked');for(const s of stage.worked)add(ol,'li',s);}
+    };draw();
+  }else{add(teaching,'h3','Worked example');const ol=add(teaching,'ol','','worked');for(const s of stage.worked)add(ol,'li',s);}
   if(stage.table){const wrap=add(teaching,'div','','table-wrap');const table=add(wrap,'table');add(table,'caption',stage.table.caption);const tr=add(add(table,'thead'),'tr');for(const h of stage.table.headers)add(tr,'th',h).scope='col';const body=add(table,'tbody');for(const values of stage.table.rows){const row=add(body,'tr');for(const v of values)add(row,'td',String(v));}}
   for(const q of stage.questions)question(q,root);
-  const label=add(root,'label',stage.reflection);label.htmlFor='reasoning';
-  const notes=add(root,'textarea');notes.id='reasoning';notes.value=state.notes[stage.id]||'';notes.placeholder='Explain using quantities, units, and evidence. Your teacher reviews this reasoning.';notes.oninput=()=>{state.notes[stage.id]=notes.value;save();};
-  add(root,'p','Write at least 30 characters. This checks that you recorded reasoning; it does not automatically grade the explanation.','minor');
+  const guidance=storyGuidance[lesson.id]?.[stage.id];
+  const label=add(root,'label',guidance?.prompt||stage.reflection);label.htmlFor='reasoning';
+  if(guidance)renderWritingSupport(root,guidance,'reasoning-support',{onSample:()=>recordSample(stage.id)});
+  const notes=add(root,'textarea');notes.id='reasoning';notes.value=state.notes[stage.id]||'';notes.placeholder='Write 2–3 sentences in your own words. Use the checklist and sentence starter above.';if(guidance)notes.setAttribute('aria-describedby','reasoning-support');notes.oninput=()=>{state.notes[stage.id]=notes.value;save();};
+  add(root,'p','Aim for 2–3 sentences with math evidence. Your teacher checks the explanation; the game only checks that you wrote something (at least 30 characters).','minor');
   const status=add(root,'p','','feedback');status.setAttribute('role','status');
   button(root,'Unlock the next story clue',()=>{
-    if(!canAdvance(stage,state)){status.textContent='Check all three answers correctly and record your reasoning before unlocking the clue.';return;}
+    if(!canAdvance(stage,state)){status.textContent='Complete the interactive example, check each chapter answer correctly, and record your reasoning before unlocking the clue.';return;}
     state.unlocked=Math.max(state.unlocked,index+1);save();showReveal(root,stage,index);
   });
   if(state.unlocked>index)showReveal(root,stage,index);
@@ -119,11 +157,13 @@ function masteryScreen() {
   const current=state.masteryAttempts.at(-1);
   if(current&&current.form===state.form){
     add(root,'p','Score: '+current.score+'/'+current.total,'result');
-    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
+    for(const result of current.results){const q=lesson.mastery.forms[current.form].find(q=>q.id===result.id);const box=add(root,'section','','card');add(box,'h3',q.prompt);if(q.displayMath)add(box,'p',q.displayMath,'equation');add(box,'p',(result.correct?'Correct. ':'Review. ')+q.explanation);verifiedGraph(add(box,'div','','verified-graph'),q);}
     if(current.score>=lesson.mastery.pass){
       add(root,'p',lesson.ending,'story-text');
-      const label=add(root,'label',lesson.reportPrompt);label.htmlFor='final-reflection';
-      const reflection=add(root,'textarea');reflection.id='final-reflection';reflection.value=state.reflection;reflection.oninput=()=>{state.reflection=reflection.value;save();};
+      const guidance=storyGuidance[lesson.id]?.final;
+      const label=add(root,'label',guidance?.prompt||lesson.reportPrompt);label.htmlFor='final-reflection';
+      if(guidance)renderWritingSupport(root,guidance,'final-reflection-support',{onSample:()=>recordSample('final')});
+      const reflection=add(root,'textarea');reflection.id='final-reflection';reflection.value=state.reflection;reflection.placeholder='Use the checklist to write your recommendation in your own words.';if(guidance)reflection.setAttribute('aria-describedby','final-reflection-support');reflection.oninput=()=>{state.reflection=reflection.value;save();};
       add(root,'p','Your teacher reviews this reflection. Download your report and submit it in your class assignment.');
       button(root,'Download completed mission report',download);
       if(lesson.nextMission){const next=catalog.missions.find(m=>m.id===lesson.nextMission);if(next){const a=add(root,'a','Next: '+next.title,'button');a.href=missionUrl(next);}}
@@ -135,6 +175,7 @@ function masteryScreen() {
   const status=add(root,'p','','feedback');status.setAttribute('role','status');
   button(root,'Submit mastery check',()=>{try{state.masteryAttempts.push(gradeMastery(lesson,state));save();render();}catch(e){status.textContent=e.message;}});
 }
+function recordSample(id){state.writingSamples??=[];if(!state.writingSamples.includes(id)){state.writingSamples.push(id);save();}}
 function render(){
   $('stages').replaceChildren();
   lesson.stages.forEach((stage,i)=>{button($('stages'),(i+1)+'. '+stage.title,()=>{state.stage=i;save();render();}).disabled=i>state.unlocked;});
@@ -154,3 +195,4 @@ try{
   document.title=mission.title+' · Math Missions';$('title').textContent=mission.title;$('draft').textContent=mission.status==='draft'?'Teacher preview · Draft mission · Not assigned':'';$('download').disabled=false;$('download').onclick=download;
   const root=$('game');add(root,'p',lesson.opening,'story-text');add(root,'h2','Your mission');add(root,'p',lesson.objective);add(root,'p',lesson.instructions);add(root,'p','Estimated time: '+mission.minutes+' minutes. Have scratch paper nearby. Progress is saved locally; download a report for your teacher.');button(root,state.attempts.length?'Continue mission':'Begin mission',render);save();
 }catch(e){$('title').textContent='Mission unavailable';$('storage').textContent='Return to Assignments or ask your teacher for the correct preview link.';}
+
